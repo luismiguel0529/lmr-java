@@ -1,18 +1,34 @@
 package wolox.training.models;
 
-import javax.persistence.Entity;
+import javax.persistence.Column;
 
-@Entity
 public class Book {
 
+    @Column
     private String Genre;
+
+    @Column(nullable = false)
     private String Author;
+
+    @Column(nullable = false)
     private String Image;
+
+    @Column(nullable = false)
     private String Title;
+
+    @Column(nullable = false)
     private String Subtitle;
+
+    @Column(nullable = false)
     private String Publisher;
+
+    @Column(nullable = false)
     private String Year;
+
+    @Column(nullable = false)
     private String Pages;
+
+    @Column(nullable = false)
     private String isbn;
 
     public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
