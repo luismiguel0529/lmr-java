@@ -1,8 +1,14 @@
 package wolox.training.models;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+import java.io.Serializable;
 
-public class Book {
+@Entity
+public class Book implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column
     private String genre;
