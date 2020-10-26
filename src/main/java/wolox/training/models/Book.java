@@ -5,106 +5,107 @@ import javax.persistence.Column;
 public class Book {
 
     @Column
-    private String Genre;
+    private String genre;
 
     @Column(nullable = false)
-    private String Author;
+    private String author;
 
     @Column(nullable = false)
-    private String Image;
+    private String image;
 
     @Column(nullable = false)
-    private String Title;
+    private String title;
 
     @Column(nullable = false)
-    private String Subtitle;
+    private String subtitle;
 
     @Column(nullable = false)
-    private String Publisher;
+    private String publisher;
 
     @Column(nullable = false)
-    private String Year;
+    private String year;
 
     @Column(nullable = false)
-    private String Pages;
+    private String pages;
 
     @Column(nullable = false)
     private String isbn;
 
     public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
-        Genre = genre;
-        Author = author;
-        Image = image;
-        Title = title;
-        Subtitle = subtitle;
-        Publisher = publisher;
-        Year = year;
-        Pages = pages;
+        this.genre = genre;
+        this.author = author;
+        this.image = image;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.publisher = publisher;
+        this.year = year;
+        this.pages = pages;
         this.isbn = isbn;
     }
 
+
     public String getGenre() {
-        return Genre;
+        return genre;
     }
 
     public void setGenre(String genre) {
-        Genre = genre;
+        this.genre = genre;
     }
 
     public String getAuthor() {
-        return Author;
+        return author;
     }
 
     public void setAuthor(String author) {
-        Author = author;
+        this.author = author;
     }
 
     public String getImage() {
-        return Image;
+        return image;
     }
 
     public void setImage(String image) {
-        Image = image;
+        this.image = image;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getSubtitle() {
-        return Subtitle;
+        return subtitle;
     }
 
     public void setSubtitle(String subtitle) {
-        Subtitle = subtitle;
+        this.subtitle = subtitle;
     }
 
     public String getPublisher() {
-        return Publisher;
+        return publisher;
     }
 
     public void setPublisher(String publisher) {
-        Publisher = publisher;
+        this.publisher = publisher;
     }
 
     public String getYear() {
-        return Year;
+        return year;
     }
 
     public void setYear(String year) {
-        Year = year;
+        this.year = year;
     }
 
     public String getPages() {
-        return Pages;
+        return pages;
     }
 
     public void setPages(String pages) {
-        Pages = pages;
+        this.pages = pages;
     }
 
     public String getIsbn() {
