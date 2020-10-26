@@ -33,7 +33,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Book findById(@PathVariable Long id) throws BookNotFoundException {
+    public Book findById(@PathVariable Long id){
         return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
     }
 
@@ -45,7 +45,7 @@ public class BookController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Book update(@RequestBody Book book, @PathVariable Long id) throws BookNotFoundException {
+    public Book update(@RequestBody Book book, @PathVariable Long id){
         bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         return bookRepository.save(book);
     }
@@ -53,7 +53,7 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws BookNotFoundException {
+    public void delete(@PathVariable Long id){
         bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         bookRepository.deleteById(id);
     }

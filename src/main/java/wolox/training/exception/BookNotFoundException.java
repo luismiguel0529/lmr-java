@@ -1,4 +1,4 @@
 package wolox.training.exception;
 
-public class BookNotFoundException extends Exception {
+public class BookNotFoundException extends RuntimeException {
 }
