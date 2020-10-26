@@ -25,7 +25,7 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
-    @GetMapping("/")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Iterable findAll(){
         return bookRepository.findAll();
@@ -37,7 +37,7 @@ public class BookController {
         return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
     }
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book){
         return bookRepository.save(book);
