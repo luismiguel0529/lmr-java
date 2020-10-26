@@ -42,6 +42,9 @@ public class Book implements Serializable {
     @Column(nullable = false)
     private String isbn;
 
+    public Book() {
+    }
+
     public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
         this.genre = genre;
         this.author = author;
