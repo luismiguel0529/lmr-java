@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
@@ -19,27 +20,35 @@ public class Book implements Serializable {
     private String genre;
 
     @Column(nullable = false)
+    @NotEmpty
     private String author;
 
     @Column(nullable = false)
+    @NotEmpty
     private String image;
 
     @Column(nullable = false)
+    @NotEmpty
     private String title;
 
     @Column(nullable = false)
+    @NotEmpty
     private String subtitle;
 
     @Column(nullable = false)
+    @NotEmpty
     private String publisher;
 
     @Column(nullable = false)
+    @NotEmpty
     private String year;
 
     @Column(nullable = false)
+    @NotEmpty
     private String pages;
 
     @Column(nullable = false)
+    @NotEmpty
     private String isbn;
 
     public Book() {

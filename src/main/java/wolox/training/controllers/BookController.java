@@ -22,11 +22,10 @@ import wolox.training.repositories.BookRepository;
 @RequestMapping("/api/books")
 public class BookController {
 
-
     @Autowired
     private BookRepository bookRepository;
 
-    @GetMapping
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public Iterable findAll(){
         return bookRepository.findAll();
@@ -34,28 +33,28 @@ public class BookController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Book findById(@PathVariable Long id){
-        return bookRepository.findById(id).orElseThrow();
+    public Book findById(@PathVariable Long id) throws BookNotFoundException {
+        return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
     }
 
-    @PostMapping
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book){
         return bookRepository.save(book);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Book update(@RequestBody Book book, @PathVariable Long id){
-        bookRepository.findById(id).orElseThrow();
+    public Book update(@RequestBody Book book, @PathVariable Long id) throws BookNotFoundException {
+        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         return bookRepository.save(book);
     }
 
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
-        bookRepository.findById(id).orElseThrow();
+    public void delete(@PathVariable Long id) throws BookNotFoundException {
+        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         bookRepository.deleteById(id);
     }
 
