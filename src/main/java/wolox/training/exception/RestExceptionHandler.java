@@ -11,16 +11,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({ BookNotFoundException.class })
-    protected ResponseEntity<Object> handleNotFound(Exception e, WebRequest webRequest){
-        return handleExceptionInternal(e,"Book not found",new HttpHeaders(), HttpStatus.NOT_FOUND,webRequest);
+    @ExceptionHandler({BookNotFoundException.class})
+    protected ResponseEntity<Object> handleNotFound(Exception e, WebRequest webRequest) {
+        return handleExceptionInternal(e, "Book not found", new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
     }
-
-    @ExceptionHandler({ BookAlreadyOwnedException.class })
-    protected ResponseEntity<Object> handleAlreadyOwned(Exception e, WebRequest webRequest){
-        return handleExceptionInternal(e,"book is already registered ",new HttpHeaders(), HttpStatus.CONFLICT,webRequest);
-    }
-
-
 
 }
