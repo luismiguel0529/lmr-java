@@ -3,7 +3,6 @@ package wolox.training.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +37,7 @@ public class BookController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Iterable findAll(){
+    public Iterable findAll() {
         return bookRepository.findAll();
     }
 
@@ -49,7 +48,7 @@ public class BookController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Book findById(@PathVariable Long id){
+    public Book findById(@PathVariable Long id) {
         return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
     }
 
@@ -60,7 +59,7 @@ public class BookController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book create(@RequestBody Book book){
+    public Book create(@RequestBody Book book) {
         return bookRepository.save(book);
     }
 
@@ -72,7 +71,7 @@ public class BookController {
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Book update(@RequestBody Book book, @PathVariable Long id){
+    public Book update(@RequestBody Book book, @PathVariable Long id) {
         bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         return bookRepository.save(book);
     }
@@ -83,7 +82,7 @@ public class BookController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         bookRepository.deleteById(id);
     }
@@ -95,7 +94,7 @@ public class BookController {
      * @return
      */
     @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("name", name);
         return "greeting";
     }
