@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +32,8 @@ public class Users {
 
     @Column(nullable = false)
     @NotEmpty
-    private List<Book> books;
+    @ManyToMany(mappedBy = "users")
+    private List<Book> books = new ArrayList<>();
 
     public Users() {
     }
