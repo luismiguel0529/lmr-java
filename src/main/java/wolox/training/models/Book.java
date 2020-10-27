@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+/***
+ * Book model
+ * @author luismiguelrodriguez
+ */
 @Entity
 public class Book implements Serializable {
 

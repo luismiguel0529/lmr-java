@@ -6,6 +6,10 @@ import wolox.training.models.Users;
 
 import java.util.Optional;
 
+/***
+ * Users repository for persistence
+ * @author luismiguelrodriguez
+ */
 @Repository
 public interface UsersRepository extends JpaRepository<Users,Long> {
 
