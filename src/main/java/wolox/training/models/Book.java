@@ -1,13 +1,16 @@
 package wolox.training.models;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Book implements Serializable {
@@ -51,10 +54,14 @@ public class Book implements Serializable {
     @NotEmpty
     private String isbn;
 
+    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
+    private List<Users> users = new ArrayList<>();
+
     public Book() {
     }
 
-    public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
+    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn, List<Users> users) {
+        this.id = id;
         this.genre = genre;
         this.author = author;
         this.image = image;
@@ -64,8 +71,16 @@ public class Book implements Serializable {
         this.year = year;
         this.pages = pages;
         this.isbn = isbn;
+        this.users = users;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getGenre() {
         return genre;
@@ -137,5 +152,13 @@ public class Book implements Serializable {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
     }
 }
