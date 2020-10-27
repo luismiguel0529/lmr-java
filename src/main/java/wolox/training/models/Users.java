@@ -18,7 +18,7 @@ public class Users {
 
     @Column(nullable = false)
     @NotEmpty
-    private String userName;
+    private String username;
 
     @Column(nullable = false)
     @NotEmpty
@@ -35,9 +35,9 @@ public class Users {
     public Users() {
     }
 
-    public Users(Long id, @NotEmpty String userName, @NotEmpty String name, @NotEmpty LocalDate birthdate, @NotEmpty List<Book> books) {
+    public Users(Long id, @NotEmpty String username, @NotEmpty String name, @NotEmpty LocalDate birthdate, @NotEmpty List<Book> books) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.name = name;
         this.birthdate = birthdate;
         this.books = books;
@@ -51,12 +51,12 @@ public class Users {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
