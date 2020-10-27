@@ -6,8 +6,9 @@ import wolox.training.models.Users;
 
 import java.util.Optional;
 
-/***
+/**
  * Users repository for persistence
+ *
  * @author luismiguelrodriguez
  */
 @Repository
