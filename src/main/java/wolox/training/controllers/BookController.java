@@ -18,23 +18,25 @@ import wolox.training.exception.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
-/***
+/**
  * Book controller containing the operations of update , find , delete , find by id and create
+ *
  * @author luismiguelrodriguez
  */
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 
-    /***
+    /**
      * Repository of books
      */
     @Autowired
     private BookRepository bookRepository;
 
-    /***
+    /**
      * Method for find all elements
-     * @return :returns all elements in BD
+     *
+     * @return returns all elements in BD
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -42,10 +44,11 @@ public class BookController {
         return bookRepository.findAll();
     }
 
-    /***
+    /**
      * Method for search elements
-     * @param id:variable used to identify the element to search
-     * @return :method that returns an object according to the id parameter
+     *
+     * @param id variable used to identify the element to search
+     * @return method that returns an object according to the id parameter
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -53,10 +56,11 @@ public class BookController {
         return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
     }
 
-    /***
+    /**
      * Method for create elements
-     * @param book:Object required to save a book
-     * @return :return a view of the saved object
+     *
+     * @param book Object required to save a book
+     * @return return a view of the saved object
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -64,11 +68,12 @@ public class BookController {
         return bookRepository.save(book);
     }
 
-    /***
+    /**
      * Method for update element
-     * @param book :Object required to update a book
-     * @param id :variable used to identify the element to update
-     * @return :return a view of the updated object
+     *
+     * @param book Object required to update a book
+     * @param id variable used to identify the element to update
+     * @return return a view of the updated object
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,9 +82,10 @@ public class BookController {
         return bookRepository.save(book);
     }
 
-    /***
+    /**
      * Method for delete element
-     * @param id :variable used to identify the element to delete
+     *
+     * @param id variable used to identify the element to delete
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -88,11 +94,12 @@ public class BookController {
         bookRepository.deleteById(id);
     }
 
-    /***
+    /**
      * Method to display the parameter passed by the request
-     * @param name :attribute that is passed as a parameter in the request
-     * @param model :Interface to work with views for example :thymeleaf
-     * @return
+     *
+     * @param name attribute that is passed as a parameter in the request
+     * @param model Interface to work with views for example :thymeleaf
+     * @return return the value entered as a parameter in the request
      */
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
