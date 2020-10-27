@@ -2,6 +2,7 @@ package wolox.training.models;
 
 import wolox.training.exception.BookAlreadyOwnedException;
 import wolox.training.exception.BookNotFoundException;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,13 +38,13 @@ public class Users {
 
     @Column(nullable = false)
     @NotEmpty
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private List<Book> books = new ArrayList<>();
 
     public Users() {
     }
 
-    public Users(Long id, @NotEmpty String username, @NotEmpty String name, @NotEmpty LocalDate birthdate, @NotEmpty List<Book> books) {
+    public Users(Long id, String username, String name, LocalDate birthdate, List<Book> books) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -91,16 +92,16 @@ public class Users {
         this.books = books;
     }
 
-    public void addBook(Book book){
-        if (books.contains(book)){
+    public void addBook(Book book) {
+        if (books.contains(book)) {
             throw new BookAlreadyOwnedException();
-        }else {
+        } else {
             this.books.add(book);
         }
     }
 
-    public void removeBook(Book book){
-        if (books.contains(book)){
+    public void removeBook(Book book) {
+        if (books.contains(book)) {
             this.books.remove(book);
         } else {
             throw new BookNotFoundException();

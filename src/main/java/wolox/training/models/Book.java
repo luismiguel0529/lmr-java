@@ -1,6 +1,5 @@
 package wolox.training.models;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,13 +54,13 @@ public class Book implements Serializable {
     @NotEmpty
     private String isbn;
 
-    @ManyToMany(mappedBy = "books",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private List<Users> users = new ArrayList<>();
 
     public Book() {
     }
 
-    public Book(Long id, String genre, @NotEmpty String author, @NotEmpty String image, @NotEmpty String title, @NotEmpty String subtitle, @NotEmpty String publisher, @NotEmpty String year, @NotEmpty String pages, @NotEmpty String isbn, List<Users> users) {
+    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn, List<Users> users) {
         this.id = id;
         this.genre = genre;
         this.author = author;
