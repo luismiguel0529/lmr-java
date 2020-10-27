@@ -2,7 +2,6 @@ package wolox.training.models;
 
 import wolox.training.exception.BookAlreadyOwnedException;
 import wolox.training.exception.BookNotFoundException;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
