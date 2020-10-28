@@ -4,10 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import wolox.training.exception.BookNotFoundException;
 import wolox.training.exception.UsersNotFoundException;
+import wolox.training.models.Book;
 import wolox.training.models.Users;
+import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
 
 /**
@@ -34,6 +39,12 @@ public class UsersController {
      */
     @Autowired
     private UsersRepository usersRepository;
+
+    /**
+     * Repository of Books
+     */
+    @Autowired
+    private BookRepository bookRepository;
 
     /**
      * Method for find all elements
@@ -119,4 +130,56 @@ public class UsersController {
         usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
         usersRepository.deleteById(id);
     }
+
+    /**
+     * Method to add a book to a user
+     *
+     * @param id User identifier to add a book
+     * @param book Book to add
+     */
+    @ApiOperation(value = "Method to add a book to a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201,message = "Book Add"),
+            @ApiResponse(code = 404,message = "User not found"),
+            @ApiResponse(code = 404,message = "Book not found")
+    })
+    @PatchMapping("/{id}/books")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addBook(@PathVariable Long id, @RequestBody Book book){
+        Users user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+
+        if (bookRepository.existsById(book.getId())){
+            user.addBook(book);
+            usersRepository.save(user);
+        } else {
+            throw new BookNotFoundException();
+        }
+    }
+
+    /**
+     * Method to delete a book to a user
+     *
+     * @param id User identifier to delete a book
+     * @param book_id Book identifier to delete
+     */
+    @ApiOperation(value = "Method to delete a book to a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204,message = "Book deleted"),
+            @ApiResponse(code = 404,message = "User not found"),
+            @ApiResponse(code = 404,message = "Book not found")
+    })
+    @PatchMapping("/{id}/books/{book_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeBook(@PathVariable Long id, @PathVariable Long book_id){
+        Users user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+
+        if (bookRepository.existsById(book_id)){
+            Book book = bookRepository.getOne(book_id);
+            user.removeBook(book);
+            usersRepository.save(user);
+        } else {
+            throw new BookNotFoundException();
+        }
+    }
+
 }
