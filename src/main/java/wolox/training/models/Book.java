@@ -10,8 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,63 +22,62 @@ import java.util.List;
  */
 @Entity
 @ApiModel(description = "Book Model")
-public class Book implements Serializable {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
     @ApiModelProperty(notes = "Genre of book")
     private String genre;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Author of book", required = true)
     private String author;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Image of book", required = true)
     private String image;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Title of book", required = true)
     private String title;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Subtitle of book", required = true)
     private String subtitle;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Publisher of book", required = true)
     private String publisher;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Year of book", required = true)
     private String year;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Pages of book", required = true)
     private String pages;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Isbn of book", required = true)
     private String isbn;
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private List<Users> users = new ArrayList<>();
+    private List<Users> users;
 
     public Book() {
     }
 
-    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn, List<Users> users) {
+    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
         this.id = id;
         this.genre = genre;
         this.author = author;
@@ -90,7 +88,7 @@ public class Book implements Serializable {
         this.year = year;
         this.pages = pages;
         this.isbn = isbn;
-        this.users = users;
+        this.users = new ArrayList<>();
     }
 
     public Long getId() {
