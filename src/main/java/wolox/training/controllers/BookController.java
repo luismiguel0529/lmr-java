@@ -1,5 +1,9 @@
 package wolox.training.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -24,6 +28,7 @@ import wolox.training.repositories.BookRepository;
  */
 @RestController
 @RequestMapping("/api/books")
+@Api
 public class BookController {
 
     /**
@@ -37,6 +42,11 @@ public class BookController {
      *
      * @return returns all elements in BD
      */
+    @ApiOperation(value = "Method to find all books", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfuly retrieved books"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource")
+    })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Iterable findAll() {
@@ -49,6 +59,11 @@ public class BookController {
      * @param id variable used to identify the element to search
      * @return method that returns an object according to the id parameter
      */
+    @ApiOperation(value = "Method to find a book", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfuly retrieved book"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Book findById(@PathVariable Long id) {
@@ -61,6 +76,10 @@ public class BookController {
      * @param book Object required to save a book
      * @return return a view of the saved object
      */
+    @ApiOperation(value = "Method to create a book", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfuly created book")
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book) {
@@ -71,9 +90,14 @@ public class BookController {
      * Method for update element
      *
      * @param book Object required to update a book
-     * @param id variable used to identify the element to update
+     * @param id   variable used to identify the element to update
      * @return return a view of the updated object
      */
+    @ApiOperation(value = "Method to update a book", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfuly updated book"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Book update(@RequestBody Book book, @PathVariable Long id) {
@@ -86,6 +110,11 @@ public class BookController {
      *
      * @param id variable used to identify the element to delete
      */
+    @ApiOperation(value = "Method to delete a book", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfuly deleted user"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
@@ -96,7 +125,7 @@ public class BookController {
     /**
      * Method to display the parameter passed by the request
      *
-     * @param name attribute that is passed as a parameter in the request
+     * @param name  attribute that is passed as a parameter in the request
      * @param model Interface to work with views for example :thymeleaf
      * @return return the value entered as a parameter in the request
      */

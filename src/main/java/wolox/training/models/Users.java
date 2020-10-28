@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import wolox.training.exception.BookAlreadyOwnedException;
 import wolox.training.exception.BookNotFoundException;
 import javax.persistence.CascadeType;
@@ -16,7 +18,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Users model
+ *
+ * @author luismiguelrodriguez
+ */
 @Entity
+@ApiModel(description = "Users Model")
 public class Users {
 
     @Id
@@ -25,18 +33,22 @@ public class Users {
 
     @NotNull
     @Column(nullable = false)
+    @ApiModelProperty(notes = "Username of user", required = true)
     private String username;
 
     @NotNull
     @Column(nullable = false)
+    @ApiModelProperty(notes = "Name of user", required = true)
     private String name;
 
     @NotNull
     @Column(nullable = false)
+    @ApiModelProperty(notes = "Birthday date of user", required = true)
     private LocalDate birthdate;
 
     @NotNull
     @Column(nullable = false)
+    @ApiModelProperty(notes = "Books of a user", required = true)
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private List<Book> books;
 
@@ -91,6 +103,11 @@ public class Users {
         this.books = books;
     }
 
+    /**
+     * Add a book to book collection
+     *
+     * @param book Object to add
+     */
     public void addBook(Book book) {
         if (books.contains(book)) {
             throw new BookAlreadyOwnedException();
@@ -99,6 +116,11 @@ public class Users {
         }
     }
 
+    /**
+     * Remove book to book collection
+     *
+     * @param book Object to delete
+     */
     public void removeBook(Book book) {
         if (books.contains(book)) {
             this.books.remove(book);
