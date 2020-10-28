@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,23 +33,22 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Username of user", required = true)
     private String username;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Name of user", required = true)
     private String name;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Birthday date of user", required = true)
     private LocalDate birthdate;
 
-    @Column(nullable = false)
-    @NotEmpty
+    @NotNull
     @ApiModelProperty(notes = "Books of a user", required = true)
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private List<Book> books = new ArrayList<>();

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,47 +30,46 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
     @ApiModelProperty(notes = "Genre of book")
     private String genre;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Author of book", required = true)
     private String author;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Image of book", required = true)
     private String image;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Title of book", required = true)
     private String title;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Subtitle of book", required = true)
     private String subtitle;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Publisher of book", required = true)
     private String publisher;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Year of book", required = true)
     private String year;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Pages of book", required = true)
     private String pages;
 
+    @NotNull
     @Column(nullable = false)
-    @NotEmpty
     @ApiModelProperty(notes = "Isbn of book", required = true)
     private String isbn;
 
