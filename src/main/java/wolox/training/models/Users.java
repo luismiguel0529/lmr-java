@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import wolox.training.exception.BookAlreadyOwnedException;
@@ -75,6 +77,7 @@ public class Users {
     }
 
     public void setUsername(String username) {
+        Preconditions.checkArgument(Strings.isNullOrEmpty(username),"Username field is required");
         this.username = username;
     }
 
@@ -83,6 +86,7 @@ public class Users {
     }
 
     public void setName(String name) {
+        Preconditions.checkArgument(Strings.isNullOrEmpty(name),"Name field is required");
         this.name = name;
     }
 
@@ -91,6 +95,7 @@ public class Users {
     }
 
     public void setBirthdate(LocalDate birthdate) {
+        Preconditions.checkNotNull(birthdate,"Birthdate field is required");
         this.birthdate = birthdate;
     }
 
@@ -108,7 +113,7 @@ public class Users {
      * @param book Object to add
      */
     public void addBook(Book book) {
-        if (books.contains(book)) {
+        if (books.contains(Preconditions.checkNotNull(book,"The book data can not be null"))) {
             throw new BookAlreadyOwnedException();
         } else {
             this.books.add(book);
@@ -121,7 +126,7 @@ public class Users {
      * @param book Object to delete
      */
     public void removeBook(Book book) {
-        if (books.contains(book)) {
+        if (books.contains(Preconditions.checkNotNull(book,"The book data can not be null"))) {
             this.books.remove(book);
         } else {
             throw new BookNotFoundException();
