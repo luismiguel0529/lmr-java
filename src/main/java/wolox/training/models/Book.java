@@ -1,5 +1,8 @@
 package wolox.training.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,6 +22,7 @@ import java.util.List;
  * @author luismiguelrodriguez
  */
 @Entity
+@ApiModel(description = "Book Model")
 public class Book implements Serializable {
 
     @Id
@@ -25,38 +30,47 @@ public class Book implements Serializable {
     private Long id;
 
     @Column
+    @ApiModelProperty(notes = "Genre of book")
     private String genre;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Author of book", required = true)
     private String author;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Image of book", required = true)
     private String image;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Title of book", required = true)
     private String title;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Subtitle of book", required = true)
     private String subtitle;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Publisher of book", required = true)
     private String publisher;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Year of book", required = true)
     private String year;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Pages of book", required = true)
     private String pages;
 
     @Column(nullable = false)
     @NotEmpty
+    @ApiModelProperty(notes = "Isbn of book", required = true)
     private String isbn;
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
@@ -160,7 +174,7 @@ public class Book implements Serializable {
     }
 
     public List<Users> getUsers() {
-        return users;
+        return Collections.unmodifiableList(users);
     }
 
     public void setUsers(List<Users> users) {
