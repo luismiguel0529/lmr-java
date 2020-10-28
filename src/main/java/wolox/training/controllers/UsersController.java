@@ -2,7 +2,6 @@ package wolox.training.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,27 +9,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import wolox.training.exception.BookNotFoundException;
-import wolox.training.models.Book;
-import wolox.training.repositories.BookRepository;
+import wolox.training.exception.UsersNotFoundException;
+import wolox.training.models.Users;
+import wolox.training.repositories.UsersRepository;
 
 /**
- * Book controller containing the operations of update , find , delete , find by id and create
+ * Users controller containing the operations of update , find , delete , find by id and create
  *
  * @author luismiguelrodriguez
  */
 @RestController
-@RequestMapping("/api/books")
-public class BookController {
+@RequestMapping("/api/users")
+public class UsersController {
 
     /**
-     * Repository of books
+     * Repository of Users
      */
     @Autowired
-    private BookRepository bookRepository;
+    private UsersRepository usersRepository;
 
     /**
      * Method for find all elements
@@ -40,7 +38,7 @@ public class BookController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Iterable findAll() {
-        return bookRepository.findAll();
+        return usersRepository.findAll();
     }
 
     /**
@@ -51,34 +49,34 @@ public class BookController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Book findById(@PathVariable Long id) {
-        return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+    public Users findById(@PathVariable Long id) {
+        return usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
     }
 
     /**
      * Method for create elements
      *
-     * @param book Object required to save a book
+     * @param user Object required to save a user
      * @return return a view of the saved object
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book create(@RequestBody Book book) {
-        return bookRepository.save(book);
+    public Users create(@RequestBody Users user) {
+        return usersRepository.save(user);
     }
 
     /**
      * Method for update element
      *
-     * @param book Object required to update a book
+     * @param user Object required to update a user
      * @param id variable used to identify the element to update
      * @return return a view of the updated object
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Book update(@RequestBody Book book, @PathVariable Long id) {
-        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
-        return bookRepository.save(book);
+    public Users update(@RequestBody Users user, @PathVariable Long id) {
+        usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        return usersRepository.save(user);
     }
 
     /**
@@ -89,20 +87,7 @@ public class BookController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
-        bookRepository.deleteById(id);
-    }
-
-    /**
-     * Method to display the parameter passed by the request
-     *
-     * @param name attribute that is passed as a parameter in the request
-     * @param model Interface to work with views for example :thymeleaf
-     * @return return the value entered as a parameter in the request
-     */
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
+        usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        usersRepository.deleteById(id);
     }
 }
