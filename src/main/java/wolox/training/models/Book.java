@@ -53,12 +53,12 @@ public class Book {
     private String isbn;
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private List<Users> users = new ArrayList<>();
+    private List<Users> users;
 
     public Book() {
     }
 
-    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn, List<Users> users) {
+    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
         this.id = id;
         this.genre = genre;
         this.author = author;
@@ -69,7 +69,7 @@ public class Book {
         this.year = year;
         this.pages = pages;
         this.isbn = isbn;
-        this.users = users;
+        this.users = new ArrayList<>();
     }
 
     public Long getId() {
