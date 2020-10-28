@@ -11,6 +11,11 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Book model
+ *
+ * @author luismiguelrodriguez
+ */
 @Entity
 public class Book {
 
