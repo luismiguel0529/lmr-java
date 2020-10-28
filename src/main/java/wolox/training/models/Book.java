@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import io.swagger.annotations.ApiModel;
@@ -72,6 +73,7 @@ public class Book {
     @ApiModelProperty(notes = "Isbn of book", required = true)
     private String isbn;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private List<Users> users;
 
@@ -113,7 +115,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(author),"Author field is required");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(author), "Author field is required");
         this.author = author;
     }
 
@@ -122,7 +124,7 @@ public class Book {
     }
 
     public void setImage(String image) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(image),"Image field is required");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(image), "Image field is required");
         this.image = image;
     }
 
@@ -131,7 +133,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(title),"Title field is required");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(title), "Title field is required");
         this.title = title;
     }
 
@@ -140,7 +142,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(subtitle),"Subtitle field is required");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(subtitle), "Subtitle field is required");
         this.subtitle = subtitle;
     }
 
@@ -149,7 +151,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(publisher),"Publisher field is required");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(publisher), "Publisher field is required");
         this.publisher = publisher;
     }
 
@@ -158,7 +160,7 @@ public class Book {
     }
 
     public void setYear(String year) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(year),"Year field is required");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(year), "Year field is required");
         this.year = year;
     }
 
@@ -167,8 +169,8 @@ public class Book {
     }
 
     public void setPages(String pages) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(pages),"Pages field is required");
-        Preconditions.checkArgument(Integer.parseInt(pages) > 0,"Invalid number of pages, must be greater than zero");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(pages), "Pages field is required");
+        Preconditions.checkArgument(Integer.parseInt(pages) > 0, "Invalid number of pages, must be greater than zero");
         this.pages = pages;
     }
 
@@ -177,7 +179,7 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(isbn),"Isbn field is required");
+        Preconditions.checkArgument(Strings.isNullOrEmpty(isbn), "Isbn field is required");
         this.isbn = isbn;
     }
 
