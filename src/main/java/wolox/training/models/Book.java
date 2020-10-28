@@ -10,9 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +22,7 @@ import java.util.List;
  */
 @Entity
 @ApiModel(description = "Book Model")
-public class Book implements Serializable {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,12 +72,12 @@ public class Book implements Serializable {
     private String isbn;
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private List<Users> users = new ArrayList<>();
+    private List<Users> users;
 
     public Book() {
     }
 
-    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn, List<Users> users) {
+    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
         this.id = id;
         this.genre = genre;
         this.author = author;
@@ -90,7 +88,7 @@ public class Book implements Serializable {
         this.year = year;
         this.pages = pages;
         this.isbn = isbn;
-        this.users = users;
+        this.users = new ArrayList<>();
     }
 
     public Long getId() {
