@@ -133,8 +133,8 @@ public class UsersController {
     /**
      * Method to add a book to a user
      *
-     * @param id   User identifier to add a book
-     * @param book Book to add
+     * @param id      User identifier to add a book
+     * @param book_id Book identifier to add
      */
     @ApiOperation(value = "Method to add a book to a user")
     @ApiResponses(value = {
@@ -142,12 +142,13 @@ public class UsersController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 404, message = "Book not found")
     })
-    @PatchMapping("/{id}/books")
+    @PatchMapping("/{id}/add_books/{book_id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addBook(@PathVariable Long id, @RequestBody Book book) {
+    public void addBook(@PathVariable Long id, @PathVariable Long book_id) {
         Users user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
 
-        if (bookRepository.existsById(book.getId())) {
+        if (bookRepository.existsById(book_id)) {
+            Book book = bookRepository.getOne(book_id);
             user.addBook(book);
             usersRepository.save(user);
         } else {
@@ -167,7 +168,7 @@ public class UsersController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 404, message = "Book not found")
     })
-    @PatchMapping("/{id}/books/{book_id}")
+    @PatchMapping("/{id}/remove_books/{book_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeBook(@PathVariable Long id, @PathVariable Long book_id) {
         Users user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);

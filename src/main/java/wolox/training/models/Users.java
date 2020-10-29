@@ -1,11 +1,13 @@
 package wolox.training.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import wolox.training.exception.BookAlreadyOwnedException;
 import wolox.training.exception.BookNotFoundException;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,10 +30,12 @@ import java.util.List;
  */
 @Entity
 @ApiModel(description = "Users Model")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SQ")
+    @SequenceGenerator(name = "USER_SQ", sequenceName = "USER_SQ")
     private Long id;
 
     @NotNull
@@ -48,7 +53,6 @@ public class Users {
     @ApiModelProperty(notes = "Birthday date of user", required = true)
     private LocalDate birthdate;
 
-    @JsonManagedReference
     @NotNull
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @ApiModelProperty(notes = "Books of a user", required = true)
@@ -115,7 +119,7 @@ public class Users {
      */
     public void addBook(Book book) {
         Preconditions.checkNotNull(book, "The book data can not be null");
-        if (books.contains(book)){
+        if (books.contains(book)) {
             throw new BookAlreadyOwnedException();
         } else {
             this.books.add(book);
