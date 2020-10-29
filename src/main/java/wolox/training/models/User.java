@@ -1,13 +1,10 @@
 package wolox.training.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import wolox.training.exception.BookAlreadyOwnedException;
 import wolox.training.exception.BookNotFoundException;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,8 +28,8 @@ import java.util.List;
  */
 @Entity
 @ApiModel(description = "Users Model")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Users {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SQ")
@@ -58,10 +56,10 @@ public class Users {
     @ApiModelProperty(notes = "Books of a user", required = true)
     private List<Book> books;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(Long id, String username, String name, LocalDate birthdate) {
+    public User(Long id, String username, String name, LocalDate birthdate) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -138,6 +136,21 @@ public class Users {
         } else {
             throw new BookNotFoundException();
         }
+    }
+
+    public User username(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public User name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public User birthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+        return this;
     }
 }
 

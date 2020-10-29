@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import wolox.training.exception.BookNotFoundException;
 import wolox.training.exception.UsersNotFoundException;
 import wolox.training.models.Book;
-import wolox.training.models.Users;
+import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
+
+import java.util.List;
 
 /**
  * Users controller containing the operations of update , find , delete , find by id and create
@@ -50,14 +52,15 @@ public class UsersController {
      *
      * @return returns all elements in BD
      */
-    @ApiOperation(value = "Method to find all users", response = Users.class)
+    @ApiOperation(value = "Method to find all users", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfuly retrieved users"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource")
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Iterable findAll() {
+    public List<User> findAll() {
+
         return usersRepository.findAll();
     }
 
@@ -67,14 +70,14 @@ public class UsersController {
      * @param id variable used to identify the element to search
      * @return method that returns an object according to the id parameter
      */
-    @ApiOperation(value = "Method to find a user", response = Users.class)
+    @ApiOperation(value = "Method to find a user", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfuly retrieved user"),
             @ApiResponse(code = 404, message = "User not found")
     })
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Users findById(@PathVariable Long id) {
+    public User findById(@PathVariable Long id) {
         return usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
     }
 
@@ -84,13 +87,13 @@ public class UsersController {
      * @param user Object required to save a user
      * @return return a view of the saved object
      */
-    @ApiOperation(value = "Method to create a user", response = Users.class)
+    @ApiOperation(value = "Method to create a user", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfuly created user")
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Users create(@RequestBody Users user) {
+    public User create(@RequestBody User user) {
         return usersRepository.save(user);
     }
 
@@ -101,16 +104,17 @@ public class UsersController {
      * @param id   variable used to identify the element to update
      * @return return a view of the updated object
      */
-    @ApiOperation(value = "Method to update a user", response = Users.class)
+    @ApiOperation(value = "Method to update a user", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfuly updated user"),
             @ApiResponse(code = 404, message = "User not found")
     })
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Users update(@RequestBody Users user, @PathVariable Long id) {
-        usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
-        return usersRepository.save(user);
+    public User update(@RequestBody User user, @PathVariable Long id) {
+        User userDB = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        userDB.username(user.getUsername()).name(user.getName()).birthdate(user.getBirthdate());
+        return usersRepository.save(userDB);
     }
 
     /**
@@ -118,7 +122,7 @@ public class UsersController {
      *
      * @param id variable used to identify the element to delete
      */
-    @ApiOperation(value = "Method to delete a user", response = Users.class)
+    @ApiOperation(value = "Method to delete a user", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Successfuly deleted user"),
             @ApiResponse(code = 404, message = "User not found")
@@ -134,7 +138,7 @@ public class UsersController {
      * Method to add a book to a user
      *
      * @param id      User identifier to add a book
-     * @param book_id Book identifier to add
+     * @param bookid Book identifier to add
      */
     @ApiOperation(value = "Method to add a book to a user")
     @ApiResponses(value = {
@@ -142,25 +146,20 @@ public class UsersController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 404, message = "Book not found")
     })
-    @PatchMapping("/{id}/add_books/{book_id}")
+    @PatchMapping("/{id}/add-books/{bookid}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addBook(@PathVariable Long id, @PathVariable Long book_id) {
-        Users user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
-
-        if (bookRepository.existsById(book_id)) {
-            Book book = bookRepository.getOne(book_id);
-            user.addBook(book);
-            usersRepository.save(user);
-        } else {
-            throw new BookNotFoundException();
-        }
+    public void addBook(@PathVariable Long id, @PathVariable Long bookid) {
+        User user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        Book book = bookRepository.findById(bookid).orElseThrow(BookNotFoundException::new);
+        user.addBook(book);
+        usersRepository.save(user);
     }
 
     /**
      * Method to delete a book to a user
      *
      * @param id      User identifier to delete a book
-     * @param book_id Book identifier to delete
+     * @param bookid Book identifier to delete
      */
     @ApiOperation(value = "Method to delete a book to a user")
     @ApiResponses(value = {
@@ -168,18 +167,13 @@ public class UsersController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 404, message = "Book not found")
     })
-    @PatchMapping("/{id}/remove_books/{book_id}")
+    @PatchMapping("/{id}/remove-books/{bookid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeBook(@PathVariable Long id, @PathVariable Long book_id) {
-        Users user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
-
-        if (bookRepository.existsById(book_id)) {
-            Book book = bookRepository.getOne(book_id);
-            user.removeBook(book);
-            usersRepository.save(user);
-        } else {
-            throw new BookNotFoundException();
-        }
+    public void removeBook(@PathVariable Long id, @PathVariable Long bookid) {
+        User user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        Book book = bookRepository.findById(bookid).orElseThrow(BookNotFoundException::new);
+        user.removeBook(book);
+        usersRepository.save(user);
     }
 
 }

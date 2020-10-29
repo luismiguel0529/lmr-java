@@ -1,12 +1,9 @@
 package wolox.training.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +25,6 @@ import java.util.List;
  */
 @Entity
 @ApiModel(description = "Book Model")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 
     @Id
@@ -81,7 +77,7 @@ public class Book {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private List<Users> users;
+    private List<User> users;
 
     public Book() {
     }
@@ -190,11 +186,58 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public List<Users> getUsers() {
+    public List<User> getUsers() {
         return Collections.unmodifiableList(users);
     }
 
-    public void setUsers(List<Users> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
+
+    public Book genre(String genre) {
+        this.genre = genre;
+        return this;
+    }
+
+    public Book author(String author) {
+        this.author = author;
+        return this;
+    }
+
+    public Book image(String image) {
+        this.image = image;
+        return this;
+    }
+
+    public Book title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Book subtitle(String subtitle) {
+        this.subtitle = subtitle;
+        return this;
+    }
+
+    public Book publisher(String publisher) {
+        this.publisher = publisher;
+        return this;
+    }
+
+    public Book year(String year) {
+        this.year = year;
+        return this;
+    }
+
+    public Book pages(String pages) {
+        this.pages = pages;
+        return this;
+    }
+
+    public Book isbn(String isbn) {
+        this.isbn = isbn;
+        return this;
+    }
+
+
 }

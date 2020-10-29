@@ -101,8 +101,18 @@ public class BookController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Book update(@RequestBody Book book, @PathVariable Long id) {
-        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
-        return bookRepository.save(book);
+        Book bookDB = bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+        bookDB
+                .genre(book.getGenre())
+                .author(book.getAuthor())
+                .image(book.getImage())
+                .title(book.getTitle())
+                .subtitle(book.getSubtitle())
+                .publisher(book.getPublisher())
+                .year(book.getYear())
+                .pages(book.getPages())
+                .isbn(book.getIsbn());
+        return bookRepository.save(bookDB);
     }
 
     /**

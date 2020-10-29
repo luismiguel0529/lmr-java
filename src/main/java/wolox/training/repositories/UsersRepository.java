@@ -2,7 +2,7 @@ package wolox.training.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import wolox.training.models.Users;
+import wolox.training.models.User;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author luismiguelrodriguez
  */
 @Repository
-public interface UsersRepository extends JpaRepository<Users, Long> {
+public interface UsersRepository extends JpaRepository<User, Long> {
 
-    public Optional<Users> findByUsername(String username);
+    public Optional<User> findByUsername(String username);
 }
