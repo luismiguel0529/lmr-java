@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import wolox.training.exception.BookAlreadyOwnedException;
@@ -46,10 +48,10 @@ public class Users {
     @ApiModelProperty(notes = "Birthday date of user", required = true)
     private LocalDate birthdate;
 
+    @JsonManagedReference
     @NotNull
-    @Column(nullable = false)
-    @ApiModelProperty(notes = "Books of a user", required = true)
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @ApiModelProperty(notes = "Books of a user", required = true)
     private List<Book> books;
 
     public Users() {
@@ -76,6 +78,7 @@ public class Users {
     }
 
     public void setUsername(String username) {
+        Preconditions.checkNotNull(username, "Username field is required");
         this.username = username;
     }
 
@@ -84,6 +87,7 @@ public class Users {
     }
 
     public void setName(String name) {
+        Preconditions.checkNotNull(name, "Name field is required");
         this.name = name;
     }
 
@@ -92,6 +96,7 @@ public class Users {
     }
 
     public void setBirthdate(LocalDate birthdate) {
+        Preconditions.checkNotNull(birthdate, "Birthdate field is required");
         this.birthdate = birthdate;
     }
 
@@ -109,7 +114,8 @@ public class Users {
      * @param book Object to add
      */
     public void addBook(Book book) {
-        if (books.contains(book)) {
+        Preconditions.checkNotNull(book, "The book data can not be null");
+        if (books.contains(book)){
             throw new BookAlreadyOwnedException();
         } else {
             this.books.add(book);
@@ -122,6 +128,7 @@ public class Users {
      * @param book Object to delete
      */
     public void removeBook(Book book) {
+        Preconditions.checkNotNull(book, "The book data can not be null");
         if (books.contains(book)) {
             this.books.remove(book);
         } else {

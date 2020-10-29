@@ -1,8 +1,9 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +73,7 @@ public class Book {
     @ApiModelProperty(notes = "Isbn of book", required = true)
     private String isbn;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private List<Users> users;
 
@@ -112,6 +115,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
+        Preconditions.checkNotNull(author, "Author field is required");
         this.author = author;
     }
 
@@ -120,6 +124,7 @@ public class Book {
     }
 
     public void setImage(String image) {
+        Preconditions.checkNotNull(image, "Image field is required");
         this.image = image;
     }
 
@@ -128,6 +133,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
+        Preconditions.checkNotNull(title, "Title field is required");
         this.title = title;
     }
 
@@ -136,6 +142,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
+        Preconditions.checkNotNull(subtitle, "Subtitle field is required");
         this.subtitle = subtitle;
     }
 
@@ -144,6 +151,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+        Preconditions.checkNotNull(publisher, "Publisher field is required");
         this.publisher = publisher;
     }
 
@@ -152,6 +160,8 @@ public class Book {
     }
 
     public void setYear(String year) {
+        Preconditions.checkNotNull(year, "Year field is required");
+        Preconditions.checkArgument(Integer.parseInt(year) <= LocalDate.now().getYear());
         this.year = year;
     }
 
@@ -160,6 +170,8 @@ public class Book {
     }
 
     public void setPages(String pages) {
+        Preconditions.checkNotNull(pages, "Pages field is required");
+        Preconditions.checkArgument(Integer.parseInt(pages) > 0, "Invalid number of pages, must be greater than zero");
         this.pages = pages;
     }
 
@@ -168,6 +180,7 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
+        Preconditions.checkNotNull(isbn, "Isbn field is required");
         this.isbn = isbn;
     }
 
