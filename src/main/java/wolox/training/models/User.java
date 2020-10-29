@@ -1,5 +1,8 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,6 +52,8 @@ public class User {
     @NotNull
     @Column(nullable = false)
     @ApiModelProperty(notes = "Birthday date of user", required = true)
+    //@JsonProperty("birthdate")
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthdate;
 
     @NotNull
