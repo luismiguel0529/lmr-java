@@ -110,11 +110,11 @@ public class UsersController {
             @ApiResponse(code = 404, message = "User not found")
     })
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public User update(@RequestBody User user, @PathVariable Long id) {
-        User userDB = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
-        userDB.username(user.getUsername()).name(user.getName()).birthdate(user.getBirthdate());
-        return usersRepository.save(userDB);
+        usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        user.setId(id);
+        return usersRepository.save(user);
     }
 
     /**
@@ -137,7 +137,7 @@ public class UsersController {
     /**
      * Method to add a book to a user
      *
-     * @param id      User identifier to add a book
+     * @param id     User identifier to add a book
      * @param bookid Book identifier to add
      */
     @ApiOperation(value = "Method to add a book to a user")
@@ -158,7 +158,7 @@ public class UsersController {
     /**
      * Method to delete a book to a user
      *
-     * @param id      User identifier to delete a book
+     * @param id     User identifier to delete a book
      * @param bookid Book identifier to delete
      */
     @ApiOperation(value = "Method to delete a book to a user")
