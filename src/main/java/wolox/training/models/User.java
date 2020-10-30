@@ -44,6 +44,9 @@ public class User {
     @ApiModelProperty(notes = "Username of user", required = true)
     private String username;
 
+    @ApiModelProperty(notes = "User's password")
+    private String password;
+
     @NotNull
     @Column(nullable = false)
     @ApiModelProperty(notes = "Name of user", required = true)
@@ -68,6 +71,14 @@ public class User {
         this.username = username;
         this.name = name;
         this.birthdate = birthdate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {
