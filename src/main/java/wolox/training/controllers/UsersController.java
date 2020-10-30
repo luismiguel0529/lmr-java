@@ -138,7 +138,7 @@ public class UsersController {
     /**
      * Method to add a book to a user
      *
-     * @param id      User identifier to add a book
+     * @param id User identifier to add a book
      * @param bookid Book identifier to add
      */
     @ApiOperation(value = "Method to add a book to a user")
@@ -159,7 +159,7 @@ public class UsersController {
     /**
      * Method to delete a book to a user
      *
-     * @param id      User identifier to delete a book
+     * @param id User identifier to delete a book
      * @param bookid Book identifier to delete
      */
     @ApiOperation(value = "Method to delete a book to a user")
