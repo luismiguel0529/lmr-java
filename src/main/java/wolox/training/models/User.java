@@ -1,6 +1,5 @@
 package wolox.training.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,10 +28,12 @@ import java.util.List;
  */
 @Entity
 @ApiModel(description = "Users Model")
-public class Users {
+@Table(name = "users")
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SQ")
+    @SequenceGenerator(name = "USER_SQ", sequenceName = "USER_SQ")
     private Long id;
 
     @NotNull
@@ -48,16 +51,15 @@ public class Users {
     @ApiModelProperty(notes = "Birthday date of user", required = true)
     private LocalDate birthdate;
 
-    @JsonManagedReference
     @NotNull
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @ApiModelProperty(notes = "Books of a user", required = true)
     private List<Book> books;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(Long id, String username, String name, LocalDate birthdate) {
+    public User(Long id, String username, String name, LocalDate birthdate) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -115,7 +117,7 @@ public class Users {
      */
     public void addBook(Book book) {
         Preconditions.checkNotNull(book, "The book data can not be null");
-        if (books.contains(book)){
+        if (books.contains(book)) {
             throw new BookAlreadyOwnedException();
         } else {
             this.books.add(book);
@@ -135,5 +137,6 @@ public class Users {
             throw new BookNotFoundException();
         }
     }
+
 }
 

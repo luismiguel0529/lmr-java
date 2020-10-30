@@ -21,6 +21,8 @@ import wolox.training.exception.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
+import java.util.List;
+
 /**
  * Book controller containing the operations of update , find , delete , find by id and create
  *
@@ -49,7 +51,7 @@ public class BookController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Iterable findAll() {
+    public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
@@ -99,9 +101,10 @@ public class BookController {
             @ApiResponse(code = 404, message = "Book not found")
     })
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Book update(@RequestBody Book book, @PathVariable Long id) {
         bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+        book.setId(id);
         return bookRepository.save(book);
     }
 

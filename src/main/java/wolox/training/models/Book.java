@@ -1,6 +1,6 @@
 package wolox.training.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ import java.util.List;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SQ")
+    @SequenceGenerator(name = "BOOK_SQ", sequenceName = "BOOK_SQ")
     private Long id;
 
     @ApiModelProperty(notes = "Genre of book")
@@ -73,9 +75,9 @@ public class Book {
     @ApiModelProperty(notes = "Isbn of book", required = true)
     private String isbn;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private List<Users> users;
+    private List<User> users;
 
     public Book() {
     }
@@ -184,11 +186,12 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public List<Users> getUsers() {
+    public List<User> getUsers() {
         return Collections.unmodifiableList(users);
     }
 
-    public void setUsers(List<Users> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
+
 }
