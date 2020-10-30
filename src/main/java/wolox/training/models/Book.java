@@ -78,7 +78,7 @@ public class Book {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Book() {
     }
@@ -94,7 +94,6 @@ public class Book {
         this.year = year;
         this.pages = pages;
         this.isbn = isbn;
-        this.users = new ArrayList<>();
     }
 
     public Long getId() {

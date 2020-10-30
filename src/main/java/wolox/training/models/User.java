@@ -52,14 +52,13 @@ public class User {
     @NotNull
     @Column(nullable = false)
     @ApiModelProperty(notes = "Birthday date of user", required = true)
-    //@JsonProperty("birthdate")
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthdate;
 
     @NotNull
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @ApiModelProperty(notes = "Books of a user", required = true)
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public User() {
     }
@@ -69,7 +68,6 @@ public class User {
         this.username = username;
         this.name = name;
         this.birthdate = birthdate;
-        this.books = new ArrayList<>();
     }
 
     public Long getId() {

@@ -2,6 +2,7 @@ package wolox.training.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,6 +13,7 @@ import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
+import wolox.training.util.TestEntities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.Optional;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = UsersController.class)
@@ -35,7 +38,6 @@ class UserControllerTest {
     private BookRepository mockBookRepository;
 
     private static User oneTestUser;
-    private static User twoTestUser;
     private static User treeTestUser;
     private static Book oneTestBook;
     private static List<User> manyTestUsers;
@@ -44,28 +46,10 @@ class UserControllerTest {
 
     @BeforeAll
     static void setUp() {
-
-        oneTestUser = new User();
-        oneTestUser.setId(1l);
-        oneTestUser.setUsername("luismiguel");
-        oneTestUser.setName("Luis Miguel");
-        oneTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
-        oneTestUser.setBooks(new ArrayList<>());
-
-        twoTestUser = new User();
-        twoTestUser.setUsername("Miguel");
-        twoTestUser.setName("Miguel");
-        twoTestUser.setBirthdate(LocalDate.of(1994, 1, 2));
-        twoTestUser.setBooks(new ArrayList<>());
-
-        manyTestUsers = new ArrayList<>();
-        manyTestUsers.add(oneTestUser);
-
-        oneTestBook = new Book();
-        oneTestBook.setId(1l);
-
-        manyTestBooks = new ArrayList<>();
-        manyTestBooks.add(oneTestBook);
+        oneTestUser = TestEntities.mockUser();
+        manyTestUsers = TestEntities.mockManyUsers();
+        oneTestBook = TestEntities.mockBook();
+        manyTestBooks = TestEntities.mockManyBook();
 
         treeTestUser = new User();
         treeTestUser.setId(1L);
@@ -81,7 +65,19 @@ class UserControllerTest {
         String url = (USER_PATH + "/1");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(oneTestUser.getName()));
+
+    }
+
+    @Test
+    @DisplayName("Test--")
+    void whenUserThatNotExistsThenReturnNotFound() throws Exception {
+        given(mockUsersRepository.findById(1L)).willReturn(Optional.empty());
+        String url = (USER_PATH + "/1");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -108,7 +104,7 @@ class UserControllerTest {
     @Test
     void whenUpdateUserThenReturnStatusCreated() throws Exception {
         given(mockUsersRepository.findById(1L)).willReturn(Optional.of(oneTestUser));
-        String json = new ObjectMapper().writeValueAsString(twoTestUser);
+        String json = new ObjectMapper().writeValueAsString(oneTestUser);
         String url = (USER_PATH + "/1");
         mvc.perform(put(url)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -149,4 +145,5 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
 }
