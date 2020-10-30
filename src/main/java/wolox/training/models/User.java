@@ -143,19 +143,5 @@ public class User {
         }
     }
 
-    public User username(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public User name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public User birthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-        return this;
-    }
 }
 

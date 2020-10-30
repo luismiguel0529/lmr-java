@@ -111,11 +111,11 @@ public class UsersController {
             @ApiResponse(code = 404, message = "User not found")
     })
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public User update(@RequestBody User user, @PathVariable Long id) {
-        User userDB = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
-        userDB.username(user.getUsername()).name(user.getName()).birthdate(user.getBirthdate());
-        return usersRepository.save(userDB);
+        usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        user.setId(id);
+        return usersRepository.save(user);
     }
 
     /**

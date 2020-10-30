@@ -101,20 +101,11 @@ public class BookController {
             @ApiResponse(code = 404, message = "Book not found")
     })
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Book update(@RequestBody Book book, @PathVariable Long id) {
-        Book bookDB = bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
-        bookDB
-                .genre(book.getGenre())
-                .author(book.getAuthor())
-                .image(book.getImage())
-                .title(book.getTitle())
-                .subtitle(book.getSubtitle())
-                .publisher(book.getPublisher())
-                .year(book.getYear())
-                .pages(book.getPages())
-                .isbn(book.getIsbn());
-        return bookRepository.save(bookDB);
+        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+        book.setId(id);
+        return bookRepository.save(book);
     }
 
     /**

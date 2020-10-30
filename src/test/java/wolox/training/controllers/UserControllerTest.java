@@ -47,17 +47,16 @@ class UserControllerTest {
 
         oneTestUser = new User();
         oneTestUser.setId(1l);
-        oneTestUser
-                .username("luismiguel")
-                .name("Luis Miguel")
-                .birthdate(LocalDate.of(1993, 11, 23))
-                .setBooks(new ArrayList<>());
+        oneTestUser.setUsername("luismiguel");
+        oneTestUser.setName("Luis Miguel");
+        oneTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
+        oneTestUser.setBooks(new ArrayList<>());
 
         twoTestUser = new User();
-        twoTestUser.username("Miguel")
-                .name("Miguel")
-                .birthdate(LocalDate.of(1994, 1, 2))
-                .setBooks(new ArrayList<>());
+        twoTestUser.setUsername("Miguel");
+        twoTestUser.setName("Miguel");
+        twoTestUser.setBirthdate(LocalDate.of(1994, 1, 2));
+        twoTestUser.setBooks(new ArrayList<>());
 
         manyTestUsers = new ArrayList<>();
         manyTestUsers.add(oneTestUser);
@@ -70,11 +69,10 @@ class UserControllerTest {
 
         treeTestUser = new User();
         treeTestUser.setId(1L);
-        treeTestUser
-                .username("luis")
-                .name("Luis")
-                .birthdate(LocalDate.of(1993, 11, 23))
-                .setBooks(manyTestBooks);
+        treeTestUser.setUsername("luis");
+        treeTestUser.setName("Luis");
+        treeTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
+        treeTestUser.setBooks(manyTestBooks);
     }
 
     @Test
@@ -117,7 +115,7 @@ class UserControllerTest {
                 .characterEncoding("utf-8")
                 .content(json))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
     @Test

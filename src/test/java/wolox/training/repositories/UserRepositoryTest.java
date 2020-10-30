@@ -21,11 +21,10 @@ public class UserRepositoryTest {
     void whenSaveUserThenJpaPersisted() {
         User oneTestUser = new User();
         oneTestUser.setId(1L);
-        oneTestUser
-                .username("luismiguel")
-                .name("Luis Miguel")
-                .birthdate(LocalDate.of(1993, 11, 23))
-                .setBooks(new ArrayList<>());
+        oneTestUser.setUsername("luismiguel");
+        oneTestUser.setName("Luis Miguel");
+        oneTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
+        oneTestUser.setBooks(new ArrayList<>());
 
         usersRepository.save(oneTestUser);
 
