@@ -18,6 +18,15 @@ public class TestEntities {
         return oneTestUser;
     }
 
+    public static User mockUserToPersis() {
+        User twoTestUser = new User();
+        twoTestUser.setId(2L);
+        twoTestUser.setUsername("luismiguel");
+        twoTestUser.setName("Luis Miguel");
+        twoTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
+        return twoTestUser;
+    }
+
     public static Book mockBook() {
         Book oneTestBook = new Book();
         oneTestBook.setId(1L);
@@ -32,6 +41,21 @@ public class TestEntities {
         oneTestBook.setPages("22");
         oneTestBook.setIsbn("22");
         return oneTestBook;
+    }
+
+    public static Book mockBookToPersis() {
+        Book twoTestBook = new Book();
+        twoTestBook.setId(2L);
+        twoTestBook.setGenre("genre");
+        twoTestBook.setAuthor("author");
+        twoTestBook.setImage("image");
+        twoTestBook.setTitle("title");
+        twoTestBook.setSubtitle("subtitle");
+        twoTestBook.setPublisher("publisher");
+        twoTestBook.setYear("222");
+        twoTestBook.setPages("22");
+        twoTestBook.setIsbn("22");
+        return twoTestBook;
     }
 
     public static List<User> mockManyUsers() {
