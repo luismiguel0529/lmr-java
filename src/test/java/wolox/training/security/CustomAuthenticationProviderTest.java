@@ -2,6 +2,7 @@ package wolox.training.security;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.User;
 import wolox.training.repositories.UsersRepository;
@@ -21,22 +23,27 @@ import java.util.Optional;
 @SpringBootTest
 public class CustomAuthenticationProviderTest {
 
-    private static User user;
+    private User user;
     private Authentication authentication;
 
     @MockBean
     private UsersRepository usersRepository;
 
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    private SecurityConfig securityConfig;
+    private CustomAuthenticationProvider provider;
 
     @Test
     void whenAuthenticationWithUserThenReturnIsAuthenticated(){
         user = TestEntities.mockOneUser();
         authentication = new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword(),new ArrayList<>());
         given(usersRepository.findByUsername(authentication.getName())).willReturn(Optional.of(user));
+        given(passwordEncoder.matches(authentication.getCredentials().toString(),user.getPassword())).willReturn(true);
 
+        Authentication responseAuth = provider.authenticate(authentication);
 
-
+        Assertions.assertTrue(responseAuth.isAuthenticated());
     }
 }
