@@ -12,7 +12,6 @@ import wolox.training.models.User;
 import wolox.training.repositories.UsersRepository;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -29,7 +28,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         User user = usersRepository.findByUsername(name).orElseThrow(() -> new BadCredentialsException("Invalid Credencial"));
 
-        if (passwordEncoder.matches(password,user.getPassword())) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
         } else {
             return null;
