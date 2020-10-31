@@ -15,6 +15,7 @@ public class TestEntities {
         oneTestUser.setUsername("luismiguel");
         oneTestUser.setName("Luis Miguel");
         oneTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
+        oneTestUser.setPassword("123");
         return oneTestUser;
     }
 
