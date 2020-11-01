@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.training.exception.BookNotFoundException;
 import wolox.training.models.Book;
+import wolox.training.models.dto.BookDTO;
 import wolox.training.repositories.BookRepository;
+import wolox.training.service.OpenLibraryService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Book controller containing the operations of update , find , delete , find by id and create
@@ -36,6 +41,12 @@ public class BookController {
      */
     @Autowired
     private BookRepository bookRepository;
+
+    /**
+     * Service External Api
+     */
+    @Autowired
+    private OpenLibraryService openLibraryService;
 
     /**
      * Method for find all elements
@@ -121,6 +132,18 @@ public class BookController {
     public void delete(@PathVariable Long id) {
         bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         bookRepository.deleteById(id);
+    }
+
+    @GetMapping("/find-by-isbn")
+    public ResponseEntity<Book> findByIsbn(@RequestParam String isbn){
+        Optional<Book> bookDB = bookRepository.findByIsbn(isbn);
+        if (bookDB.isPresent()){
+            return new ResponseEntity<>(bookDB.get(),HttpStatus.OK);
+        } else {
+            BookDTO bookDTO = openLibraryService.findInfoBook(isbn);
+            Book book = bookRepository.save(bookDTO.setBook());
+            return new ResponseEntity<>(book,HttpStatus.CREATED);
+        }
     }
 
 }
