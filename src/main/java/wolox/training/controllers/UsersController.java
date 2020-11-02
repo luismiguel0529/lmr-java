@@ -198,8 +198,8 @@ public class UsersController {
             @ApiResponse(code = 200, message = "Authenticated user")
     })
     @GetMapping("/auth-username")
-    public ResponseEntity<String> authUsername(){
+    public ResponseEntity<String> authUsername() {
         Authentication authentication = iAuthenticationFacede.getAutentication();
-        return new ResponseEntity<>("Autenticated user:" +authentication.getName(),HttpStatus.OK);
+        return new ResponseEntity<>("Autenticated user:" + authentication.getName(), HttpStatus.OK);
     }
 }

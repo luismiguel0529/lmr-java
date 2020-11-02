@@ -52,7 +52,7 @@ public class BookControllerTest {
         oneTestBook = TestEntities.mockBook();
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test find all book ,return status OK")
     void whenFindBookByIdThenReturnStatusOK() throws Exception {
@@ -63,7 +63,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a book is searched for its id,it return status not found")
     void whenBookThatNotExistsThenReturnNotFound() throws Exception {
@@ -74,7 +74,7 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test,When a books is searched ,it return status OK")
     void whenFindAllBookTHenReturnStatusOK() throws Exception {
@@ -85,7 +85,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test , When a book is created , it return status Created")
     void whenCreateBookThenReturnStatusCreated() throws Exception {
@@ -99,7 +99,7 @@ public class BookControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a book is updated , it return status OK")
     void whenUpdateBookThenReturnStatusCreated() throws Exception {
@@ -114,7 +114,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a book is deleted , it return status No Content")
     void whenDeleteBookThenReturnStatusNoContent() throws Exception {

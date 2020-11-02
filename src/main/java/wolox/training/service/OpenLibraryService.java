@@ -22,30 +22,30 @@ public class OpenLibraryService {
     @Value("${urlExternal}")
     private String urlOpenLibrary;
 
-    public BookDTO findInfoBook(String isbn){
+    public BookDTO findInfoBook(String isbn) {
         final String isbnQuery = "ISBN:" + isbn;
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(urlOpenLibrary)
                 .path("books")
-                .queryParam("bibkeys",isbnQuery)
-                .queryParam("format","json")
-                .queryParam("jscmd","data")
+                .queryParam("bibkeys", isbnQuery)
+                .queryParam("format", "json")
+                .queryParam("jscmd", "data")
                 .build()
                 .toUri();
 
 
-        ObjectNode node = restTemplate.getForObject(uri,ObjectNode.class);
-        if (!node.isEmpty()){
+        ObjectNode node = restTemplate.getForObject(uri, ObjectNode.class);
+        if (!node.isEmpty()) {
 
             ObjectMapper mapper = new ObjectMapper();
             BookDTO bookDTO = new BookDTO();
             bookDTO.setIsbn(isbn);
-            bookDTO.setTitle(mapper.convertValue(node.get(isbnQuery).get("title"),String.class));
-            bookDTO.setSubtitle(mapper.convertValue(node.get(isbnQuery).get("subtitle"),String.class));
-            bookDTO.setPublishers(mapper.convertValue(node.get(isbnQuery).get("publishers"),List.class));
+            bookDTO.setTitle(mapper.convertValue(node.get(isbnQuery).get("title"), String.class));
+            bookDTO.setSubtitle(mapper.convertValue(node.get(isbnQuery).get("subtitle"), String.class));
+            bookDTO.setPublishers(mapper.convertValue(node.get(isbnQuery).get("publishers"), List.class));
             bookDTO.setPublishDate(mapper.convertValue(node.get(isbnQuery).get("publish_date"), String.class));
-            bookDTO.setNumberOfPages(mapper.convertValue(node.get(isbnQuery).get("number_of_pages"),String.class));
-            bookDTO.setAuthors(mapper.convertValue(node.get(isbnQuery).get("authors"),List.class));
+            bookDTO.setNumberOfPages(mapper.convertValue(node.get(isbnQuery).get("number_of_pages"), String.class));
+            bookDTO.setAuthors(mapper.convertValue(node.get(isbnQuery).get("authors"), List.class));
             return bookDTO;
         }
         throw new BookNotFoundException();
