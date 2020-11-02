@@ -18,6 +18,7 @@ import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
 import wolox.training.security.CustomAuthenticationProvider;
+import wolox.training.security.IAuthenticationFacede;
 import wolox.training.service.OpenLibraryService;
 import wolox.training.util.TestEntities;
 
@@ -52,6 +53,9 @@ class UserControllerTest {
 
     @MockBean
     private OpenLibraryService openLibraryService;
+
+    @MockBean
+    private IAuthenticationFacede iAuthenticationFacede;
 
     private static User oneTestUser;
     private static User twoTestUser;
