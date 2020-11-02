@@ -10,6 +10,7 @@ import wolox.training.models.User;
 import wolox.training.util.TestEntities;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,8 +43,9 @@ public class UserRepositoryTest {
     @Test
     void whenUpdateUserThenReturnUserUpdated() {
         oneTestUser.setName("miguel");
-        User persistedUser = usersRepository.save(oneTestUser);
-        assertEquals(oneTestUser.getName(), persistedUser.getName());
+        usersRepository.save(oneTestUser);
+        Optional<User> persistedUser = usersRepository.findById(oneTestUser.getId());
+        assertEquals(oneTestUser.getName(), persistedUser.get().getName());
     }
 
 }
