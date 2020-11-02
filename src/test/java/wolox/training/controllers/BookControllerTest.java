@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 import wolox.training.security.CustomAuthenticationProvider;
+import wolox.training.service.OpenLibraryService;
 import wolox.training.util.TestEntities;
 
 import java.util.List;
@@ -37,6 +38,9 @@ public class BookControllerTest {
 
     @MockBean
     private CustomAuthenticationProvider customAuthenticationProvider;
+
+    @MockBean
+    private OpenLibraryService openLibraryService;
 
     private static Book oneTestBook;
     private static List<Book> manyTestBooks;

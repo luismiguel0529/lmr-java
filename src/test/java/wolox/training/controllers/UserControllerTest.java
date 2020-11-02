@@ -18,6 +18,7 @@ import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
 import wolox.training.security.CustomAuthenticationProvider;
+import wolox.training.service.OpenLibraryService;
 import wolox.training.util.TestEntities;
 
 import java.util.ArrayList;
@@ -48,6 +49,9 @@ class UserControllerTest {
 
     @MockBean
     private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private OpenLibraryService openLibraryService;
 
     private static User oneTestUser;
     private static User twoTestUser;
