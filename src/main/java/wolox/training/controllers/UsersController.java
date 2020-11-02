@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
+import wolox.training.security.IAuthenticationFacede;
 
 import java.util.List;
 
@@ -48,8 +51,17 @@ public class UsersController {
     @Autowired
     private BookRepository bookRepository;
 
+    /**
+     * Service  for encoding passwords.
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /**
+     * Interface for view user authenticate
+     */
+    @Autowired
+    private IAuthenticationFacede iAuthenticationFacede;
 
     /**
      * Method for find all elements
@@ -181,4 +193,13 @@ public class UsersController {
         usersRepository.save(user);
     }
 
+    @ApiOperation(value = "Method to view a autenticated user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Authenticated user")
+    })
+    @GetMapping("/auth-username")
+    public ResponseEntity<String> authUsername(){
+        Authentication authentication = iAuthenticationFacede.getAutentication();
+        return new ResponseEntity<>("Autenticated user:" +authentication.getName(),HttpStatus.OK);
+    }
 }
