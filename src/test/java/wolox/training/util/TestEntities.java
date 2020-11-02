@@ -11,7 +11,6 @@ public class TestEntities {
 
     public static User mockOneUser() {
         User oneTestUser = new User();
-        oneTestUser.setId(1l);
         oneTestUser.setUsername("luismiguel");
         oneTestUser.setName("Luis Miguel");
         oneTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
@@ -21,7 +20,6 @@ public class TestEntities {
 
     public static User mockUserToPersis() {
         User twoTestUser = new User();
-        twoTestUser.setId(2L);
         twoTestUser.setUsername("luismiguel");
         twoTestUser.setName("Luis Miguel");
         twoTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
@@ -30,8 +28,6 @@ public class TestEntities {
 
     public static Book mockBook() {
         Book oneTestBook = new Book();
-        oneTestBook.setId(1L);
-        oneTestBook.setId(1L);
         oneTestBook.setGenre("genre");
         oneTestBook.setAuthor("author");
         oneTestBook.setImage("image");
@@ -46,7 +42,6 @@ public class TestEntities {
 
     public static Book mockBookToPersis() {
         Book twoTestBook = new Book();
-        twoTestBook.setId(2L);
         twoTestBook.setGenre("genre");
         twoTestBook.setAuthor("author");
         twoTestBook.setImage("image");
@@ -73,7 +68,6 @@ public class TestEntities {
 
     public static User mockTwoUser() {
         User twoTestUser = new User();
-        twoTestUser.setId(1l);
         twoTestUser.setUsername("luismiguel");
         twoTestUser.setName("Luis Miguel");
         twoTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
