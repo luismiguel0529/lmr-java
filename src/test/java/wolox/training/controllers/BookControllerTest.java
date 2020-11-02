@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
+import wolox.training.security.CustomAuthenticationProvider;
+import wolox.training.service.OpenLibraryService;
 import wolox.training.util.TestEntities;
 
 import java.util.List;
@@ -33,6 +36,12 @@ public class BookControllerTest {
     @MockBean
     private BookRepository mockBookRepository;
 
+    @MockBean
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
+    @MockBean
+    private OpenLibraryService openLibraryService;
+
     private static Book oneTestBook;
     private static List<Book> manyTestBooks;
     private static final String USER_PATH = "/api/books";
@@ -43,6 +52,7 @@ public class BookControllerTest {
         oneTestBook = TestEntities.mockBook();
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test find all book ,return status OK")
     void whenFindBookByIdThenReturnStatusOK() throws Exception {
@@ -53,6 +63,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is searched for its id,it return status not found")
     void whenBookThatNotExistsThenReturnNotFound() throws Exception {
@@ -63,6 +74,7 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test,When a books is searched ,it return status OK")
     void whenFindAllBookTHenReturnStatusOK() throws Exception {
@@ -73,6 +85,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test , When a book is created , it return status Created")
     void whenCreateBookThenReturnStatusCreated() throws Exception {
@@ -86,6 +99,7 @@ public class BookControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is updated , it return status OK")
     void whenUpdateBookThenReturnStatusCreated() throws Exception {
@@ -100,6 +114,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is deleted , it return status No Content")
     void whenDeleteBookThenReturnStatusNoContent() throws Exception {
