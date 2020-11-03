@@ -54,4 +54,18 @@ public class BookRepositoryTest {
         Optional<Book> book = bookRepository.findById(twoTestBook.getId());
         assertEquals(book.get().getId(), twoTestBook.getId());
     }
+
+    @Test
+    void whenCallfindByPublisherAndGenreAndYearThenReturnListBook() {
+        bookRepository.save(oneTestBook);
+        Optional<List<Book>> books = bookRepository.findByPublisherAndGenreAndYear(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear());
+        assertEquals(books.get().get(0).getPublisher(), oneTestBook.getPublisher());
+    }
+
+    @Test
+    void whenCallfindByPublisherAndGenreAndYearQueryThenReturnListBook() {
+        bookRepository.save(oneTestBook);
+        Optional<List<Book>> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear());
+        assertEquals(books.get().get(0).getPublisher(), oneTestBook.getPublisher());
+    }
 }

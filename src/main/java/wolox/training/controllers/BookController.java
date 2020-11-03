@@ -159,11 +159,11 @@ public class BookController {
     }
 
     /**
-     *Method to search a book by the following variables
+     * Method to search a book by the following variables
      *
      * @param publisher variable used to create the filter
-     * @param genre variable used to create the filter
-     * @param year variable used to create the filter
+     * @param genre     variable used to create the filter
+     * @param year      variable used to create the filter
      * @return
      */
     @ApiOperation(value = "Method to search a book by (publisher,genre and year)", response = Book.class)
@@ -175,15 +175,14 @@ public class BookController {
     public ResponseEntity<List<Book>> findByPublisherGenreYear(
             @PathVariable String publisher,
             @PathVariable String genre,
-            @PathVariable String year){
+            @PathVariable String year) {
 
         List<Book> book = bookRepository
-                .findByPublisherAndGenreAndYear(publisher,genre,year)
+                .findByPublisherAndGenreAndYear(publisher, genre, year)
                 .orElseThrow(BookNotFoundException::new);
 
-        return new ResponseEntity<>(book,HttpStatus.OK);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
-
 
 
 }

@@ -1,6 +1,7 @@
 package wolox.training.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.User;
 
@@ -18,7 +19,16 @@ public interface UsersRepository extends JpaRepository<User, Long> {
 
     public Optional<User> findByUsername(String username);
 
-    List<User> findAllByBirthdateBetweenAndNameContainingIgnoreCase(
+    Optional<List<User>> findAllByBirthdateBetweenAndNameContainingIgnoreCase(
+            LocalDate startDate,
+            LocalDate endDate,
+            String name);
+
+    @Query("SELECT u FROM User u"
+            + " WHERE (cast(?1 as date) is null OR u.birthdate >= ?1)"
+            + " AND (cast(?2 as date) is null OR u.birthdate <= ?2)"
+            + " AND (?3 = '' OR UPPER(?3) LIKE UPPER(?3))")
+    Optional<List<User>> findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(
             LocalDate startDate,
             LocalDate endDate,
             String name);

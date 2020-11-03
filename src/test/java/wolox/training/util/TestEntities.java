@@ -36,7 +36,7 @@ public class TestEntities {
         oneTestBook.setTitle("title");
         oneTestBook.setSubtitle("subtitle");
         oneTestBook.setPublisher("publisher");
-        oneTestBook.setYear("222");
+        oneTestBook.setYear("22");
         oneTestBook.setPages("22");
         oneTestBook.setIsbn("22");
         return oneTestBook;
@@ -77,9 +77,9 @@ public class TestEntities {
     }
 
     public static BookDTO mockBookDTO() {
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("name","name");
-        List<HashMap<String,String>> mockListHash = new ArrayList<>();
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("name", "name");
+        List<HashMap<String, String>> mockListHash = new ArrayList<>();
         mockListHash.add(hashMap);
         BookDTO bookDTO = new BookDTO();
         bookDTO.setIsbn("ISBN");

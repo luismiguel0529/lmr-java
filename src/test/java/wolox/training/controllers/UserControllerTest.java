@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -159,7 +157,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a user is deleted , it return status No Content")
     void whenDeleteUserThenReturnStatusNoContent() throws Exception {
@@ -183,7 +181,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a book is added , it return status Created")
     void whenAddBookThenReturnStatusCreated() throws Exception {
@@ -240,7 +238,7 @@ class UserControllerTest {
     void whenFindUserBetweenBirthdateThenReturnStatusOK() throws Exception {
         LocalDate starDate = LocalDate.of(2017, 9, 24);
         LocalDate endDate = LocalDate.of(2020, 9, 24);
-        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate,endDate,"miguel")).willReturn(manyTestUsers);
+        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate, endDate, "miguel")).willReturn(Optional.of(manyTestUsers));
         String url = (USER_PATH + "/2017-09-24/2020-09-24/miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))

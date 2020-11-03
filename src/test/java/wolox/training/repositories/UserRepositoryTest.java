@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.User;
 import wolox.training.util.TestEntities;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,14 +23,12 @@ public class UserRepositoryTest {
     private UsersRepository usersRepository;
 
     private static User oneTestUser;
-    private static User twoTestUser;
     private static List<User> manyTestUsers;
 
     @BeforeAll
     static void setUp() {
         oneTestUser = TestEntities.mockOneUser();
         manyTestUsers = TestEntities.mockManyUsers();
-        twoTestUser = TestEntities.mockUserToPersis();
     }
 
     @Test
@@ -46,6 +45,24 @@ public class UserRepositoryTest {
         usersRepository.save(oneTestUser);
         Optional<User> persistedUser = usersRepository.findById(oneTestUser.getId());
         assertEquals(oneTestUser.getName(), persistedUser.get().getName());
+    }
+
+    @Test
+    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseThenReturnListUser() {
+        LocalDate startDate = LocalDate.of(1992, 11, 11);
+        LocalDate endDate = LocalDate.of(2020, 11, 11);
+        usersRepository.save(oneTestUser);
+        Optional<List<User>> users = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, oneTestUser.getName());
+        assertEquals(users.get().get(0).getBirthdate(), oneTestUser.getBirthdate());
+    }
+
+    @Test
+    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseQueryThenReturnListUser() {
+        LocalDate startDate = LocalDate.of(1992, 11, 11);
+        LocalDate endDate = LocalDate.of(2020, 11, 11);
+        usersRepository.save(oneTestUser);
+        Optional<List<User>> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, oneTestUser.getName());
+        assertEquals(users.get().get(0).getBirthdate(), oneTestUser.getBirthdate());
     }
 
 }

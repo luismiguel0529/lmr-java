@@ -210,11 +210,11 @@ public class UsersController {
     }
 
     /**
-     *Method to search user with birthdate beetween two date
+     * Method to search user with birthdate beetween two date
      *
      * @param startDate initial date
      * @param endDate   end date
-     * @param name name of user en repository
+     * @param name      name of user en repository
      * @return
      */
     @ApiOperation(value = "Method to search user with birthdate beetween two date")
@@ -226,12 +226,12 @@ public class UsersController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate endDate,
             @PathVariable String name
-            ){
-        return new ResponseEntity<>(
-                usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(
-                        startDate,
-                        endDate,
-                        name),
-                HttpStatus.OK);
+    ) {
+
+        List<User> books = usersRepository
+                .findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name)
+                .orElseThrow(BookNotFoundException::new);
+
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }
