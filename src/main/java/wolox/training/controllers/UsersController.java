@@ -94,7 +94,6 @@ public class UsersController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user) {
-
         return usersRepository.save(user);
     }
 

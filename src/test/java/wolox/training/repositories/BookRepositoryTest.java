@@ -33,7 +33,7 @@ public class BookRepositoryTest {
     }
 
     @Test
-    void whenCallFindALlBookThenReturnAllList() {
+    void whenCallFindAllBookThenReturnAllList() {
         bookRepository.saveAll(manyTestBooks);
         List<Book> bookList = bookRepository.findAll();
         assertEquals(bookList.get(0).getAuthor(), manyTestBooks.get(0).getAuthor());
