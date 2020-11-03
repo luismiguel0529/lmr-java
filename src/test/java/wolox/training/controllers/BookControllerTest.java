@@ -81,7 +81,6 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test , When a book is created , it return status Created")
     void whenCreateBookThenReturnStatusCreated() throws Exception {
@@ -125,6 +124,7 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is deleted , it return status No Content")
     void whenDeleteBookThenReturnStatusNoContent() throws Exception {
@@ -136,6 +136,7 @@ public class BookControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is deleted , it return status No Found")
     void whenDeleteBookThenReturnStatusNoFound() throws Exception {

@@ -101,7 +101,6 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test , When a user is created , it return status Created")
     void whenCreateUserThenReturnStatusCreated() throws Exception {
@@ -145,6 +144,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a user is deleted , it return status No Content")
     void whenDeleteUserThenReturnStatusNoContent() throws Exception {
@@ -168,6 +168,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is added , it return status Created")
     void whenAddBookThenReturnStatusCreated() throws Exception {
@@ -185,7 +186,6 @@ class UserControllerTest {
     @Test
     @DisplayName("Test, When a book is added and its exists , it return status Conflict")
     void whenAddBookThenReturnStatusConflict() throws Exception {
-
         given(mockUsersRepository.findById(1L)).willReturn(Optional.of(twoTestUser));
         given(mockBookRepository.findById(1L)).willReturn(Optional.of(oneTestBook));
         String url = (USER_PATH + "/1/add-books/1");
