@@ -64,7 +64,6 @@ public class UsersController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<User> findAll() {
-
         return usersRepository.findAll();
     }
 
