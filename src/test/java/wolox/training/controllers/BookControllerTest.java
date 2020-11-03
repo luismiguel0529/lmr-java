@@ -21,6 +21,8 @@ import wolox.training.util.TestEntities;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -124,5 +126,17 @@ public class BookControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status OK")
+    void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
+        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(),anyString(),anyString())).willReturn(Optional.of(manyTestBooks));
+        String url = (USER_PATH + "/publisher/genre/year");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
