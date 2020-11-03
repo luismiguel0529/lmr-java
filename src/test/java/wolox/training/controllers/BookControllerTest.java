@@ -73,7 +73,7 @@ public class BookControllerTest {
     @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test,When a books is searched ,it return status OK")
-    void whenFindAllBookTHenReturnStatusOK() throws Exception {
+    void whenFindAllBookThenReturnStatusOK() throws Exception {
         given(mockBookRepository.findAll()).willReturn(manyTestBooks);
         String url = USER_PATH;
         mvc.perform(get(url)
@@ -112,6 +112,20 @@ public class BookControllerTest {
 
     @WithMockUser(value="miguel")
     @Test
+    @DisplayName("Test, When a book is updated , it return status No Found")
+    void whenUpdateBookThenReturnStatusNoFound() throws Exception {
+        given(mockBookRepository.findById(1L)).willReturn(Optional.empty());
+        String json = new ObjectMapper().writeValueAsString(oneTestBook);
+        String url = (USER_PATH + "/1");
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @DisplayName("Test, When a book is deleted , it return status No Content")
     void whenDeleteBookThenReturnStatusNoContent() throws Exception {
         given(mockBookRepository.findById(1L)).willReturn(Optional.of(oneTestBook));
@@ -120,5 +134,16 @@ public class BookControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Test, When a book is deleted , it return status No Found")
+    void whenDeleteBookThenReturnStatusNoFound() throws Exception {
+        given(mockBookRepository.findById(1L)).willReturn(Optional.empty());
+        String url = (USER_PATH + "/1");
+        mvc.perform(delete(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

@@ -77,7 +77,6 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(oneTestUser.getName()));
-
     }
 
     @WithMockUser(value="miguel")
@@ -94,7 +93,7 @@ class UserControllerTest {
     @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test,When a users is searched ,it return status OK")
-    void whenFindAllUserTHenReturnStatusOK() throws Exception {
+    void whenFindAllUserThenReturnStatusOK() throws Exception {
         given(mockUsersRepository.findAll()).willReturn(manyTestUsers);
         String url = USER_PATH;
         mvc.perform(get(url)
@@ -133,6 +132,20 @@ class UserControllerTest {
 
     @WithMockUser(value="miguel")
     @Test
+    @DisplayName("Test, When a user is updated , it return status No Found")
+    void whenUpdateUserThenReturnStatusNoFound() throws Exception {
+        given(mockUsersRepository.findById(1L)).willReturn(Optional.empty());
+        String json = new ObjectMapper().writeValueAsString(oneTestUser);
+        String url = (USER_PATH + "/1");
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @DisplayName("Test, When a user is deleted , it return status No Content")
     void whenDeleteUserThenReturnStatusNoContent() throws Exception {
         given(mockUsersRepository.findById(1L)).willReturn(Optional.of(oneTestUser));
@@ -144,6 +157,17 @@ class UserControllerTest {
     }
 
     @WithMockUser(value="miguel")
+    @Test
+    @DisplayName("Test, When a user is deleted , it return status No Found")
+    void whenDeleteUserThenReturnStatusNoFound() throws Exception {
+        given(mockUsersRepository.findById(1L)).willReturn(Optional.empty());
+        String url = (USER_PATH + "/1");
+        mvc.perform(delete(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
     @Test
     @DisplayName("Test, When a book is added , it return status Created")
     void whenAddBookThenReturnStatusCreated() throws Exception {

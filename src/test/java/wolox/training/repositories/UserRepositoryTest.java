@@ -33,7 +33,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    void whenCallFindALlUserThenReturnAllList() {
+    void whenCallFindAllUserThenReturnAllList() {
         usersRepository.saveAll(manyTestUsers);
         List<User> userList = usersRepository.findAll();
         assertEquals(userList.get(0).getName(), manyTestUsers.get(0).getName());
