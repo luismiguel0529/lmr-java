@@ -82,7 +82,7 @@ public class BookControllerTest {
     @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test,When a books is searched ,it return status OK")
-    void whenFindAllBookTHenReturnStatusOK() throws Exception {
+    void whenFindAllBookThenReturnStatusOK() throws Exception {
         given(mockBookRepository.findAll()).willReturn(manyTestBooks);
         String url = USER_PATH;
         mvc.perform(get(url)
@@ -90,7 +90,6 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test , When a book is created , it return status Created")
     void whenCreateBookThenReturnStatusCreated() throws Exception {
@@ -121,6 +120,21 @@ public class BookControllerTest {
 
     @WithMockUser(value = "miguel")
     @Test
+    @DisplayName("Test, When a book is updated , it return status No Found")
+    void whenUpdateBookThenReturnStatusNoFound() throws Exception {
+        given(mockBookRepository.findById(1L)).willReturn(Optional.empty());
+        String json = new ObjectMapper().writeValueAsString(oneTestBook);
+        String url = (USER_PATH + "/1");
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(value="miguel")
+    @Test
     @DisplayName("Test, When a book is deleted , it return status No Content")
     void whenDeleteBookThenReturnStatusNoContent() throws Exception {
         given(mockBookRepository.findById(1L)).willReturn(Optional.of(oneTestBook));
@@ -131,40 +145,27 @@ public class BookControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @WithMockUser(value="miguel")
+    @Test
+    @DisplayName("Test, When a book is deleted , it return status No Found")
+    void whenDeleteBookThenReturnStatusNoFound() throws Exception {
+        given(mockBookRepository.findById(1L)).willReturn(Optional.empty());
+        String url = (USER_PATH + "/1");
+        mvc.perform(delete(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
     @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status OK")
     void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
-        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(),anyString(),anyString())).willReturn(Optional.of(manyTestBooks));
+        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(), anyString(), anyString())).willReturn(Optional.of(manyTestBooks));
         String url = (USER_PATH + "/publisher/genre/year");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-    }
-
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test, When find a book by isbn , it retunr status OK")
-    void whenFindBookByIsbnThenRetunrStatusOK() throws Exception {
-        given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.of(oneTestBook));
-        String url = (USER_PATH + "/find-by-isbn?isbn=22");
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test, When find a book by isbn , it retunr status Created")
-    void whenFindBookByIsbnThenRetunrStatusCreated() throws Exception {
-        given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.empty());
-        given(openLibraryService.findInfoBook(anyString())).willReturn((oneTestBookDTO));
-        String url = (USER_PATH + "/find-by-isbn?isbn=22");
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isCreated());
     }
 }
