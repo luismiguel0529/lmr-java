@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -56,6 +57,9 @@ class UserControllerTest {
 
     @MockBean
     private IAuthenticationFacede iAuthenticationFacede;
+
+    @MockBean
+    private Authentication authentication;
 
     private static User oneTestUser;
     private static User twoTestUser;
@@ -190,6 +194,17 @@ class UserControllerTest {
         mvc.perform(patch(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("test, When find authenticated user , it return status OK")
+    void whenFindAuthenticatedUserThenRetunrStatusOK() throws Exception {
+        given(iAuthenticationFacede.getAutentication()).willReturn(authentication);
+        String url = (USER_PATH + "/auth-username");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
 }

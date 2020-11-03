@@ -193,6 +193,11 @@ public class UsersController {
         usersRepository.save(user);
     }
 
+    /**
+     * Method to view autenticate user
+     *
+     * @return Autenticated user
+     */
     @ApiOperation(value = "Method to view a autenticated user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Authenticated user")

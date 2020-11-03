@@ -13,6 +13,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import wolox.training.models.Book;
+import wolox.training.models.dto.BookDTO;
 import wolox.training.repositories.BookRepository;
 import wolox.training.security.CustomAuthenticationProvider;
 import wolox.training.service.OpenLibraryService;
@@ -46,12 +47,14 @@ public class BookControllerTest {
 
     private static Book oneTestBook;
     private static List<Book> manyTestBooks;
+    private static BookDTO oneTestBookDTO;
     private static final String USER_PATH = "/api/books";
 
     @BeforeAll
     static void setUp() {
         manyTestBooks = TestEntities.mockManyBooks();
         oneTestBook = TestEntities.mockBook();
+        oneTestBookDTO = TestEntities.mockBookDTO();
     }
 
     @WithMockUser(value = "miguel")
@@ -138,5 +141,30 @@ public class BookControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("Test, When find a book by isbn , it retunr status OK")
+    void whenFindBookByIsbnThenRetunrStatusOK() throws Exception {
+        given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.of(oneTestBook));
+        String url = (USER_PATH + "/find-by-isbn?isbn=22");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("Test, When find a book by isbn , it retunr status Created")
+    void whenFindBookByIsbnThenRetunrStatusCreated() throws Exception {
+        given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.empty());
+        given(openLibraryService.findInfoBook(anyString())).willReturn((oneTestBookDTO));
+        String url = (USER_PATH + "/find-by-isbn?isbn=22");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
     }
 }
