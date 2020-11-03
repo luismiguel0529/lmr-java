@@ -32,8 +32,7 @@ public class OpenLibraryService {
                 .queryParam("jscmd","data")
                 .build()
                 .toUri();
-
-
+        
         ObjectNode node = restTemplate.getForObject(uri,ObjectNode.class);
         if (!node.isEmpty()){
 

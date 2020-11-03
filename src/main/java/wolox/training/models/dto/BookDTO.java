@@ -86,7 +86,6 @@ public class BookDTO implements Serializable {
     }
 
     public Book setBook() {
-
         Book book = new Book();
         book.setImage("No image");
         book.setIsbn(this.isbn);
@@ -96,7 +95,6 @@ public class BookDTO implements Serializable {
         book.setPages(this.numberOfPages);
         book.setAuthor(this.authors.get(0).get("name"));
         book.setYear(this.publishDate);
-
         return book;
     }
 }
