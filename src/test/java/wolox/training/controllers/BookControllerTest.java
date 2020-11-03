@@ -156,6 +156,8 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value = "miguel")
+    @Test
     @DisplayName("Test, When find a book by isbn , it retunr status OK")
     void whenFindBookByIsbnThenRetunrStatusOK() throws Exception {
         given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.of(oneTestBook));
