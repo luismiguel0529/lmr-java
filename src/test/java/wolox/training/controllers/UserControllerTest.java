@@ -247,4 +247,33 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(value="miguel")
+    @Test
+    @DisplayName("test, When a password is update , it return status OK")
+    void whenPasswordIsUpdateThenReturnStatusOK() throws Exception {
+        given(mockUsersRepository.findById(1L)).willReturn(Optional.of(oneTestUser));
+        String json = new ObjectMapper().writeValueAsString(oneTestUser);
+        String url = (USER_PATH + "/password/1");
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value="miguel")
+    @Test
+    @DisplayName("test, When a password is update , it return status No Found")
+    void whenPasswordIsUpdateThenReturnStatusNoFound() throws Exception {
+        given(mockUsersRepository.findById(1L)).willReturn(Optional.empty());
+        String json = new ObjectMapper().writeValueAsString(oneTestUser);
+        String url = (USER_PATH + "/password/1");
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
 }

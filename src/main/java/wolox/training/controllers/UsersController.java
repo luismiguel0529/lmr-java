@@ -195,9 +195,9 @@ public class UsersController {
     }
 
     /**
-     * Method to view autenticate user
+     * Method to view a autenticated user
      *
-     * @return Autenticated user
+     * @return retunr autenticated user
      */
     @ApiOperation(value = "Method to view a autenticated user")
     @ApiResponses(value = {
@@ -226,12 +226,32 @@ public class UsersController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate endDate,
             @PathVariable String name
-            ){
+            ) {
         return new ResponseEntity<>(
                 usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(
                         startDate,
                         endDate,
                         name),
                 HttpStatus.OK);
+    }
+
+   /**
+     * Method to update  password to a user
+     *
+     * @param id User identifier to update a password
+     * @param user Object to update password
+     */
+    @ApiOperation(value = "Method to update  password to a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Password update"),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @PutMapping("/password/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updatePassword(@PathVariable Long id,@RequestBody User user){
+        usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        user.setId(id);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        usersRepository.save(user);
     }
 }
