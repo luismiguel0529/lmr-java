@@ -23,10 +23,13 @@ import wolox.training.security.IAuthenticationFacede;
 import wolox.training.service.OpenLibraryService;
 import wolox.training.util.TestEntities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -202,6 +205,19 @@ class UserControllerTest {
     void whenFindAuthenticatedUserThenRetunrStatusOK() throws Exception {
         given(iAuthenticationFacede.getAutentication()).willReturn(authentication);
         String url = (USER_PATH + "/auth-username");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("test, When find user by birthdate between two date, it return status OK")
+    void whenFindUserBetweenBirthdateThenReturnStatusOK() throws Exception {
+        LocalDate starDate = LocalDate.of(2017, 9, 24);
+        LocalDate endDate = LocalDate.of(2020, 9, 24);
+        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate,endDate,"miguel")).willReturn(manyTestUsers);
+        String url = (USER_PATH + "/2017-09-24/2020-09-24/miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

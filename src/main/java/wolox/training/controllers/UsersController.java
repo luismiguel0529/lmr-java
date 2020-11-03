@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
 import wolox.training.security.IAuthenticationFacede;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -206,5 +208,31 @@ public class UsersController {
     public ResponseEntity<String> authUsername() {
         Authentication authentication = iAuthenticationFacede.getAutentication();
         return new ResponseEntity<>("Autenticated user:" + authentication.getName(), HttpStatus.OK);
+    }
+
+    /**
+     *Method to search user with birthdate beetween two date
+     *
+     * @param startDate initial date
+     * @param endDate   end date
+     * @param name name of user en repository
+     * @return
+     */
+    @ApiOperation(value = "Method to search user with birthdate beetween two date")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Authenticated user")
+    })
+    @GetMapping("/{startDate}/{endDate}/{name}")
+    public ResponseEntity<List<User>> findByBirthdateBetween(
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate endDate,
+            @PathVariable String name
+            ){
+        return new ResponseEntity<>(
+                usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(
+                        startDate,
+                        endDate,
+                        name),
+                HttpStatus.OK);
     }
 }
