@@ -32,11 +32,10 @@ public class OpenLibraryService {
                 .queryParam("jscmd", "data")
                 .build()
                 .toUri();
+        
+        ObjectNode node = restTemplate.getForObject(uri,ObjectNode.class);
 
-
-        ObjectNode node = restTemplate.getForObject(uri, ObjectNode.class);
-        if (!node.isEmpty()) {
-
+        if (!node.isEmpty()){
             ObjectMapper mapper = new ObjectMapper();
             BookDTO bookDTO = new BookDTO();
             bookDTO.setIsbn(isbn);
@@ -49,7 +48,5 @@ public class OpenLibraryService {
             return bookDTO;
         }
         throw new BookNotFoundException();
-
     }
-
 }

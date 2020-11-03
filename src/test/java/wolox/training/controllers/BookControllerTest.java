@@ -18,11 +18,8 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.security.CustomAuthenticationProvider;
 import wolox.training.service.OpenLibraryService;
 import wolox.training.util.TestEntities;
-
 import java.util.List;
 import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -133,7 +130,7 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a book is deleted , it return status No Content")
     void whenDeleteBookThenReturnStatusNoContent() throws Exception {
@@ -145,7 +142,7 @@ public class BookControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a book is deleted , it return status No Found")
     void whenDeleteBookThenReturnStatusNoFound() throws Exception {
@@ -155,6 +152,29 @@ public class BookControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("Test, When find a book by isbn , it retunr status OK")
+    void whenFindBookByIsbnThenRetunrStatusOK() throws Exception {
+        given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.of(oneTestBook));
+        String url = (USER_PATH + "/find-by-isbn?isbn=22");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("Test, When find a book by isbn , it retunr status Created")
+    void whenFindBookByIsbnThenRetunrStatusCreated() throws Exception {
+        given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.empty());
+        given(openLibraryService.findInfoBook(anyString())).willReturn((oneTestBookDTO));
+        String url = (USER_PATH + "/find-by-isbn?isbn=22");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
     }
 
     @WithMockUser(value = "miguel")
