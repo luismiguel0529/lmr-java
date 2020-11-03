@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -77,7 +78,7 @@ public class Book {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Book() {
     }
@@ -93,7 +94,6 @@ public class Book {
         this.year = year;
         this.pages = pages;
         this.isbn = isbn;
-        this.users = new ArrayList<>();
     }
 
     public Long getId() {
