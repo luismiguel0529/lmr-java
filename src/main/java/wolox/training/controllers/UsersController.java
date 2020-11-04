@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -47,6 +48,9 @@ public class UsersController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * Method for find all elements
      *
@@ -60,7 +64,6 @@ public class UsersController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<User> findAll() {
-
         return usersRepository.findAll();
     }
 
@@ -94,6 +97,7 @@ public class UsersController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return usersRepository.save(user);
     }
 
@@ -173,6 +177,26 @@ public class UsersController {
         User user = usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
         Book book = bookRepository.findById(bookid).orElseThrow(BookNotFoundException::new);
         user.removeBook(book);
+        usersRepository.save(user);
+    }
+
+    /**
+     * Method to update  password to a user
+     *
+     * @param id User identifier to update a password
+     * @param user Object to update password
+     */
+    @ApiOperation(value = "Method to update  password to a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Password update"),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @PutMapping("/password/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updatePassword(@PathVariable Long id,@RequestBody User user){
+        usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
+        user.setId(id);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
     }
 

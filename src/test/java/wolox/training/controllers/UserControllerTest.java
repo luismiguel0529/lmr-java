@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
+import wolox.training.security.CustomAuthenticationProvider;
 import wolox.training.util.TestEntities;
 
 import java.util.ArrayList;
@@ -40,6 +43,12 @@ class UserControllerTest {
     @MockBean
     private BookRepository mockBookRepository;
 
+    @MockBean
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+
     private static User oneTestUser;
     private static User twoTestUser;
     private static Book oneTestBook;
@@ -58,6 +67,7 @@ class UserControllerTest {
         twoTestUser.setBooks(manyTestBooks);
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test find all user ,return status OK")
     void whenFindUserByIdThenReturnStatusOK() throws Exception {
@@ -69,6 +79,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.name").value(oneTestUser.getName()));
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a user is searched for its id,it return status not found")
     void whenUserThatNotExistsThenReturnNotFound() throws Exception {
@@ -79,6 +90,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test,When a users is searched ,it return status OK")
     void whenFindAllUserThenReturnStatusOK() throws Exception {
@@ -102,6 +114,7 @@ class UserControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a user is updated , it return status OK")
     void whenUpdateUserThenReturnStatusCreated() throws Exception {
@@ -116,6 +129,7 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a user is updated , it return status No Found")
     void whenUpdateUserThenReturnStatusNoFound() throws Exception {
@@ -130,6 +144,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a user is deleted , it return status No Content")
     void whenDeleteUserThenReturnStatusNoContent() throws Exception {
@@ -141,6 +156,7 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a user is deleted , it return status No Found")
     void whenDeleteUserThenReturnStatusNoFound() throws Exception {
@@ -152,6 +168,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is added , it return status Created")
     void whenAddBookThenReturnStatusCreated() throws Exception {
@@ -165,10 +182,10 @@ class UserControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("Test, When a book is added and its exists , it return status Conflict")
     void whenAddBookThenReturnStatusConflict() throws Exception {
-
         given(mockUsersRepository.findById(1L)).willReturn(Optional.of(twoTestUser));
         given(mockBookRepository.findById(1L)).willReturn(Optional.of(oneTestBook));
         String url = (USER_PATH + "/1/add-books/1");
@@ -179,6 +196,7 @@ class UserControllerTest {
                 .andExpect(status().isConflict());
     }
 
+    @WithMockUser(value="miguel")
     @Test
     @DisplayName("test, When a book is remove , it return status No Content")
     void whenRemoveBookThenReturnStatusNoContent() throws Exception {
@@ -190,4 +208,33 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @WithMockUser(value="miguel")
+    @Test
+    @DisplayName("test, When a password is update , it return status OK")
+    void whenPasswordIsUpdateThenReturnStatusOK() throws Exception {
+        given(mockUsersRepository.findById(1L)).willReturn(Optional.of(oneTestUser));
+        String json = new ObjectMapper().writeValueAsString(oneTestUser);
+        String url = (USER_PATH + "/password/1");
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value="miguel")
+    @Test
+    @DisplayName("test, When a password is update , it return status No Found")
+    void whenPasswordIsUpdateThenReturnStatusNoFound() throws Exception {
+        given(mockUsersRepository.findById(1L)).willReturn(Optional.empty());
+        String json = new ObjectMapper().writeValueAsString(oneTestUser);
+        String url = (USER_PATH + "/password/1");
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
 }
