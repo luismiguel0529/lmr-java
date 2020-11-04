@@ -41,6 +41,14 @@ public interface UsersRepository extends JpaRepository<User, Long> {
             String name,
             Pageable pageable);
 
+    /**
+     * Method to search users by startDate or endDate or name
+     *
+     * @param startDate variable to search object
+     * @param endDate   variable to search object
+     * @param name      variable to search object
+     * @return return a user with specified parameters
+     */
     @Query("SELECT u FROM User u"
             + " WHERE (cast(?1 as date) is null OR u.birthdate >= ?1)"
             + " AND (cast(?2 as date) is null OR u.birthdate <= ?2)"

@@ -35,7 +35,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     public Optional<Book> findByIsbn(String isbn);
 
     /**
-     * Method to search book by isbn or genre or year
+     * Method to search book by publisher or genre or year
      *
      * @param publisher variable to search object
      * @param genre     variable to search object
@@ -48,6 +48,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             String year,
             Pageable pageable);
 
+    /**
+     * Method to search book by publisher or genre or year
+     *
+     * @param publisher variable to search object
+     * @param genre     variable to search object
+     * @param year      variable to search object
+     * @return return a book with specified parameters
+     */
     @Query("SELECT b from Book b "
             + " WHERE (?1 = '' OR b.publisher = ?1)"
             + " AND (?2 = '' OR b.genre = ?2)"
