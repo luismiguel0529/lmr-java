@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -240,14 +238,27 @@ class UserControllerTest {
     void whenFindUserBetweenBirthdateThenReturnStatusOK() throws Exception {
         LocalDate starDate = LocalDate.of(2017, 9, 24);
         LocalDate endDate = LocalDate.of(2020, 9, 24);
-        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate,endDate,"miguel")).willReturn(manyTestUsers);
+        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate, endDate, "miguel")).willReturn(Optional.of(manyTestUsers));
         String url = (USER_PATH + "/2017-09-24/2020-09-24/miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("test, When find user by birthdate between two date, it return status not found")
+    void whenFindUserBetweenBirthdateThenReturnStatusNotFound() throws Exception {
+        LocalDate starDate = LocalDate.of(2017, 9, 24);
+        LocalDate endDate = LocalDate.of(2020, 9, 24);
+        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate, endDate, "miguel")).willReturn(Optional.empty());
+        String url = (USER_PATH + "/2017-09-24/2020-09-24/miguel");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("test, When a password is update , it return status OK")
     void whenPasswordIsUpdateThenReturnStatusOK() throws Exception {

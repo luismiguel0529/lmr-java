@@ -30,6 +30,7 @@ import wolox.training.security.IAuthenticationFacede;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Users controller containing the operations of update , find , delete , find by id and create
@@ -207,16 +208,16 @@ public class UsersController {
     public ResponseEntity<Object> authUsername() {
         Authentication authentication = iAuthenticationFacede.getAutentication();
         String response = "{\"Autenticated user\": \"%s\"}";
-        return new ResponseEntity<>(String.format(response,authentication.getName()),HttpStatus.OK);
+        return new ResponseEntity<>(String.format(response, authentication.getName()), HttpStatus.OK);
     }
 
     /**
-     *Method to search user with birthdate beetween two date
+     * Method to search user with birthdate beetween two date
      *
      * @param startDate initial date
      * @param endDate   end date
-     * @param name name of user en repository
-     * @return
+     * @param name      name of user en repository
+     * @return return a users with the specified parameters
      */
     @ApiOperation(value = "Method to search user with birthdate beetween two date")
     @ApiResponses(value = {
@@ -226,17 +227,13 @@ public class UsersController {
     public ResponseEntity<List<User>> findByBirthdateBetween(
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate endDate,
-            @PathVariable String name
-            ) {
-        return new ResponseEntity<>(
-                usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(
-                        startDate,
-                        endDate,
-                        name),
-                HttpStatus.OK);
+            @PathVariable String name) {
+        return usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name)
+                .map(users -> new ResponseEntity<>(users,HttpStatus.OK))
+                .orElseThrow(UsersNotFoundException::new);
     }
 
-   /**
+    /**
      * Method to update  password to a user
      *
      * @param id   User identifier to update a password
