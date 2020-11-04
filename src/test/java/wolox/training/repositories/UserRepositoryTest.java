@@ -41,6 +41,7 @@ public class UserRepositoryTest {
 
     @Test
     void whenUpdateUserThenReturnUserUpdated() {
+        usersRepository.save(oneTestUser);
         oneTestUser.setName("miguel");
         usersRepository.save(oneTestUser);
         Optional<User> persistedUser = usersRepository.findById(oneTestUser.getId());
@@ -64,5 +65,4 @@ public class UserRepositoryTest {
         Optional<List<User>> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, oneTestUser.getName());
         assertEquals(users.get().get(0).getBirthdate(), oneTestUser.getBirthdate());
     }
-
 }

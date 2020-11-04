@@ -184,5 +184,43 @@ public class BookController {
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
-
+    /**
+     * Method to search a book by all parameters
+     *
+     * @param id        parameter to search by id
+     * @param genre     parameter to search by genre
+     * @param author    parameter to search by author
+     * @param image     parameter to search by image
+     * @param title     parameter to search by title
+     * @param subtitle  parameter to search by subtitle
+     * @param publisher parameter to search by publisher
+     * @param startYear parameter to filter by year (initial)
+     * @param endYear   parameter to filter by year  (final)
+     * @param pages     parameter to search by pages
+     * @param isbn      parameter to search by isbn
+     * @return book depending on the parameters
+     */
+    @ApiOperation(value = "Method to search a book by all parameters", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book found successfully"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
+    @GetMapping("/parameters")
+    public ResponseEntity<List<Book>> findByParameters(
+            @RequestParam(required = false, defaultValue = "") String id,
+            @RequestParam(required = false, defaultValue = "") String genre,
+            @RequestParam(required = false, defaultValue = "") String author,
+            @RequestParam(required = false, defaultValue = "") String image,
+            @RequestParam(required = false, defaultValue = "") String title,
+            @RequestParam(required = false, defaultValue = "") String subtitle,
+            @RequestParam(required = false, defaultValue = "") String publisher,
+            @RequestParam(required = false, defaultValue = "") String startYear,
+            @RequestParam(required = false, defaultValue = "") String endYear,
+            @RequestParam(required = false, defaultValue = "") String pages,
+            @RequestParam(required = false, defaultValue = "") String isbn) {
+        List<Book> books = bookRepository
+                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn)
+                .orElseThrow(BookNotFoundException::new);
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
 }

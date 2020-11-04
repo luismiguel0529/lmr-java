@@ -42,10 +42,10 @@ public class BookRepositoryTest {
 
     @Test
     void whenUpdateBookThenReturnBookUpdated() {
-        oneTestBook.setAuthor("miguel");
         bookRepository.save(oneTestBook);
-        Optional<Book> book = bookRepository.findById(oneTestBook.getId());
-        assertEquals(book.get().getAuthor(), oneTestBook.getAuthor());
+        oneTestBook.setAuthor("miguel");
+        Book book = bookRepository.save(oneTestBook);
+        assertEquals(book.getAuthor(), oneTestBook.getAuthor());
     }
 
     @Test
