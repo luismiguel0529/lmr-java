@@ -136,14 +136,13 @@ public class BookController {
 
     @GetMapping("/find-by-isbn")
     public ResponseEntity<Book> findByIsbn(@RequestParam String isbn) {
-        Optional<Book> bookDB = bookRepository.findByIsbn(isbn);
-        if (bookDB.isPresent()) {
-            return new ResponseEntity<>(bookDB.get(), HttpStatus.OK);
-        } else {
-            BookDTO bookDTO = openLibraryService.findInfoBook(isbn);
-            Book book = bookRepository.save(bookDTO.setBook());
-            return new ResponseEntity<>(book, HttpStatus.CREATED);
-        }
+        return bookRepository.findByIsbn(isbn)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElseGet(() -> {
+                    BookDTO bookDTO = openLibraryService.findInfoBook(isbn);
+                    Book book = bookRepository.save(bookDTO.setBook());
+                    return new ResponseEntity<>(book, HttpStatus.CREATED);
+                });
     }
 
 }
