@@ -183,7 +183,7 @@ public class UsersController {
     /**
      * Method to update  password to a user
      *
-     * @param id User identifier to update a password
+     * @param id   User identifier to update a password
      * @param user Object to update password
      */
     @ApiOperation(value = "Method to update  password to a user")
@@ -193,7 +193,7 @@ public class UsersController {
     })
     @PutMapping("/password/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePassword(@PathVariable Long id,@RequestBody User user){
+    public void updatePassword(@PathVariable Long id, @RequestBody User user) {
         usersRepository.findById(id).orElseThrow(UsersNotFoundException::new);
         user.setId(id);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

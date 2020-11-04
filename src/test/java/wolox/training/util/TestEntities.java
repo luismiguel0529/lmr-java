@@ -2,9 +2,11 @@ package wolox.training.util;
 
 import wolox.training.models.Book;
 import wolox.training.models.User;
+import wolox.training.models.dto.BookDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TestEntities {
@@ -74,4 +76,19 @@ public class TestEntities {
         return twoTestUser;
     }
 
+    public static BookDTO mockBookDTO() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("name", "name");
+        List<HashMap<String, String>> mockListHash = new ArrayList<>();
+        mockListHash.add(hashMap);
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setIsbn("ISBN");
+        bookDTO.setTitle("title");
+        bookDTO.setPublishDate("2020");
+        bookDTO.setPublishers(mockListHash);
+        bookDTO.setNumberOfPages("1");
+        bookDTO.setSubtitle("Subtitle");
+        bookDTO.setAuthors(mockListHash);
+        return bookDTO;
+    }
 }
