@@ -25,12 +25,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        User user = usersRepository.findByUsername(name).orElseThrow(() -> new BadCredentialsException("Bad Credencial"));
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
-        } else {
-            throw new BadCredentialsException("Bad Credencial");
-        }
+        usersRepository.findByUsername(name)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElseThrow(() -> new BadCredentialsException("Bad Credencial"));
+
+        return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
     }
 
     @Override
