@@ -26,7 +26,6 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.service.OpenLibraryService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Book controller containing the operations of update , find , delete , find by id and create
@@ -165,7 +164,7 @@ public class BookController {
      * @param publisher variable used to create the filter
      * @param genre     variable used to create the filter
      * @param year      variable used to create the filter
-     * @return
+     * @return return a books as the specified parameters
      */
     @ApiOperation(value = "Method to search a book by (publisher,genre and year)", response = Book.class)
     @ApiResponses(value = {

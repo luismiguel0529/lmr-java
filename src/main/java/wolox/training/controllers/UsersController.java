@@ -209,7 +209,7 @@ public class UsersController {
     public ResponseEntity<Object> authUsername() {
         Authentication authentication = iAuthenticationFacede.getAutentication();
         String response = "{\"Autenticated user\": \"%s\"}";
-        return new ResponseEntity<>(String.format(response,authentication.getName()),HttpStatus.OK);
+        return new ResponseEntity<>(String.format(response, authentication.getName()), HttpStatus.OK);
     }
 
     /**
@@ -218,7 +218,7 @@ public class UsersController {
      * @param startDate initial date
      * @param endDate   end date
      * @param name      name of user en repository
-     * @return
+     * @return return a users with the specified parameters
      */
     @ApiOperation(value = "Method to search user with birthdate beetween two date")
     @ApiResponses(value = {
