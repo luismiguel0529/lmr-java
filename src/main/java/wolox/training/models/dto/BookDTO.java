@@ -100,9 +100,10 @@ public class BookDTO implements Serializable {
         return book;
     }
 
-    public BookDTO setBookDto(ObjectNode node, BookDTO bookDTO, String isbn) {
+    public static BookDTO setBookDto(ObjectNode node, String isbn) {
         final String isbnQuery = "ISBN:" + isbn;
         ObjectMapper mapper = new ObjectMapper();
+        BookDTO bookDTO = new BookDTO();
         bookDTO.setIsbn(isbn);
         bookDTO.setTitle(mapper.convertValue(node.get(isbnQuery).get("title"), String.class));
         bookDTO.setSubtitle(mapper.convertValue(node.get(isbnQuery).get("subtitle"), String.class));

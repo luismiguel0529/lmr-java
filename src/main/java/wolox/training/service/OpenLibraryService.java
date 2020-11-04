@@ -32,9 +32,7 @@ public class OpenLibraryService {
                 .toUri();
         ObjectNode node = restTemplate.getForObject(uri, ObjectNode.class);
         if (!node.isEmpty()) {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.setBookDto(node, bookDTO, isbn);
-            return bookDTO;
+            return BookDTO.setBookDto(node, isbn);
         }
 
         throw new BookNotFoundException();

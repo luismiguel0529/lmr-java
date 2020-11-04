@@ -7,7 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import wolox.training.models.User;
 import wolox.training.repositories.UsersRepository;
 
 import java.util.ArrayList;
@@ -25,12 +24,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        User user = usersRepository.findByUsername(name).orElseThrow(() -> new BadCredentialsException("Bad Credencial"));
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
-        } else {
-            throw new BadCredentialsException("Bad Credencial");
-        }
+        usersRepository.findByUsername(name)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElseThrow(() -> new BadCredentialsException("Bad Credencial"));
+
+        return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
     }
 
     @Override
