@@ -75,10 +75,11 @@ public class TestEntities {
         twoTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
         return twoTestUser;
     }
+
     public static BookDTO mockBookDTO() {
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("name","name");
-        List<HashMap<String,String>> mockListHash = new ArrayList<>();
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("name", "name");
+        List<HashMap<String, String>> mockListHash = new ArrayList<>();
         mockListHash.add(hashMap);
         BookDTO bookDTO = new BookDTO();
         bookDTO.setIsbn("ISBN");

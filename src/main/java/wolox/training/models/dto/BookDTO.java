@@ -100,16 +100,16 @@ public class BookDTO implements Serializable {
         return book;
     }
 
-    public BookDTO setBookDto(ObjectNode node,BookDTO bookDTO,String isbn){
+    public BookDTO setBookDto(ObjectNode node, BookDTO bookDTO, String isbn) {
         final String isbnQuery = "ISBN:" + isbn;
         ObjectMapper mapper = new ObjectMapper();
         bookDTO.setIsbn(isbn);
-        bookDTO.setTitle(mapper.convertValue(node.get(isbnQuery).get("title"),String.class));
-        bookDTO.setSubtitle(mapper.convertValue(node.get(isbnQuery).get("subtitle"),String.class));
-        bookDTO.setPublishers(mapper.convertValue(node.get(isbnQuery).get("publishers"),List.class));
+        bookDTO.setTitle(mapper.convertValue(node.get(isbnQuery).get("title"), String.class));
+        bookDTO.setSubtitle(mapper.convertValue(node.get(isbnQuery).get("subtitle"), String.class));
+        bookDTO.setPublishers(mapper.convertValue(node.get(isbnQuery).get("publishers"), List.class));
         bookDTO.setPublishDate(mapper.convertValue(node.get(isbnQuery).get("publish_date"), String.class));
-        bookDTO.setNumberOfPages(mapper.convertValue(node.get(isbnQuery).get("number_of_pages"),String.class));
-        bookDTO.setAuthors(mapper.convertValue(node.get(isbnQuery).get("authors"),List.class));
+        bookDTO.setNumberOfPages(mapper.convertValue(node.get(isbnQuery).get("number_of_pages"), String.class));
+        bookDTO.setAuthors(mapper.convertValue(node.get(isbnQuery).get("authors"), List.class));
         return bookDTO;
     }
 }
