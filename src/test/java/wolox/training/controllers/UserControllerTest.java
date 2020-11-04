@@ -152,7 +152,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a user is deleted , it return status No Content")
     void whenDeleteUserThenReturnStatusNoContent() throws Exception {
@@ -176,7 +176,7 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("Test, When a book is added , it return status Created")
     void whenAddBookThenReturnStatusCreated() throws Exception {
@@ -216,7 +216,7 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("test, When a password is update , it return status OK")
     void whenPasswordIsUpdateThenReturnStatusOK() throws Exception {
@@ -231,7 +231,7 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("test, When a password is update , it return status No Found")
     void whenPasswordIsUpdateThenReturnStatusNoFound() throws Exception {
