@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,8 +79,8 @@ public class UsersController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<User> findAll() {
-        return usersRepository.findAll();
+    public Page<User> findAll(Pageable pageable) {
+        return usersRepository.findAll(pageable);
     }
 
     /**
@@ -223,13 +225,13 @@ public class UsersController {
             @ApiResponse(code = 200, message = "Authenticated user")
     })
     @GetMapping("/{startDate}/{endDate}/{name}")
-    public ResponseEntity<List<User>> findByBirthdateBetween(
+    public ResponseEntity<Page<User>> findByBirthdateBetween(
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate endDate,
-            @PathVariable String name) {
-        List<User> books = usersRepository
-                .findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name)
-                .orElseThrow(BookNotFoundException::new);
+            @PathVariable String name,
+            Pageable pageable) {
+        Page<User> books = usersRepository
+                .findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name,pageable);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 

@@ -8,6 +8,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -238,7 +242,9 @@ class UserControllerTest {
     void whenFindUserBetweenBirthdateThenReturnStatusOK() throws Exception {
         LocalDate starDate = LocalDate.of(2017, 9, 24);
         LocalDate endDate = LocalDate.of(2020, 9, 24);
-        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate, endDate, "miguel")).willReturn(Optional.of(testUsers));
+        Pageable pageable = PageRequest.of(0,1);
+        Page<User> users =new PageImpl<>(testUsers);
+        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate, endDate, "miguel",pageable)).willReturn(users);
         String url = (USER_PATH + "/2017-09-24/2020-09-24/miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))

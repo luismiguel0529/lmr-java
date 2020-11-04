@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.User;
 import wolox.training.util.TestEntities;
@@ -48,21 +51,22 @@ public class UserRepositoryTest {
         assertEquals(testUser.getName(), persistedUser.get().getName());
     }
 
-    @Test
-    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseThenReturnListUser() {
-        LocalDate startDate = LocalDate.of(1992, 11, 11);
-        LocalDate endDate = LocalDate.of(2020, 11, 11);
-        usersRepository.save(testUser);
-        Optional<List<User>> users = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, testUser.getName());
-        assertEquals(users.get().get(0).getBirthdate(), testUser.getBirthdate());
-    }
+//    @Test
+//    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseThenReturnListUser() {
+//        LocalDate startDate = LocalDate.of(1992, 11, 11);
+//        LocalDate endDate = LocalDate.of(2020, 11, 11);
+//        usersRepository.save(testUser);
+//        Optional<List<User>> users = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, testUser.getName());
+//        assertEquals(users.get().get(0).getBirthdate(), testUser.getBirthdate());
+//    }
 
     @Test
     void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseQueryThenReturnListUser() {
+        Pageable pageable = PageRequest.of(0,1);
         LocalDate startDate = LocalDate.of(1992, 11, 11);
         LocalDate endDate = LocalDate.of(2020, 11, 11);
         usersRepository.save(testUser);
-        Optional<List<User>> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, testUser.getName());
-        assertEquals(users.get().get(0).getBirthdate(), testUser.getBirthdate());
+        Page<User> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, testUser.getName(),pageable);
+        assertEquals(users.getContent().iterator().next().getBirthdate(), testUser.getBirthdate());
     }
 }
