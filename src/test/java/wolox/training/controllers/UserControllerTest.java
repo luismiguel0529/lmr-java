@@ -260,7 +260,7 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(value="miguel")
+    @WithMockUser(value = "miguel")
     @Test
     @DisplayName("test, When a password is update , it return status No Found")
     void whenPasswordIsUpdateThenReturnStatusNoFound() throws Exception {

@@ -1,6 +1,5 @@
 package wolox.training.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,6 @@ import wolox.training.exception.BookNotFoundException;
 import wolox.training.models.dto.BookDTO;
 
 import java.net.URI;
-import java.util.List;
 
 @Service
 public class OpenLibraryService {
@@ -32,10 +30,10 @@ public class OpenLibraryService {
                 .queryParam("jscmd", "data")
                 .build()
                 .toUri();
-        ObjectNode node = restTemplate.getForObject(uri,ObjectNode.class);
-        if (!node.isEmpty()){
+        ObjectNode node = restTemplate.getForObject(uri, ObjectNode.class);
+        if (!node.isEmpty()) {
             BookDTO bookDTO = new BookDTO();
-            bookDTO.setBookDto(node,bookDTO,isbn);
+            bookDTO.setBookDto(node, bookDTO, isbn);
             return bookDTO;
         }
 
