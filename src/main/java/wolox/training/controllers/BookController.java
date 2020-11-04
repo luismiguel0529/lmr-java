@@ -137,7 +137,7 @@ public class BookController {
     @GetMapping("/find-by-isbn")
     public ResponseEntity<Book> findByIsbn(@RequestParam String isbn) {
         return bookRepository.findByIsbn(isbn)
-                .map(book -> new ResponseEntity<>(bookDB.get(), HttpStatus.OK))
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElseGet(() -> {
                     BookDTO bookDTO = openLibraryService.findInfoBook(isbn);
                     Book book = bookRepository.save(bookDTO.setBook());
