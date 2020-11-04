@@ -12,12 +12,12 @@ import java.util.List;
 public class TestEntities {
 
     public static User mockOneUser() {
-        User oneTestUser = new User();
-        oneTestUser.setUsername("luismiguel");
-        oneTestUser.setName("miguel");
-        oneTestUser.setBirthdate(LocalDate.of(2018, 11, 23));
-        oneTestUser.setPassword("123");
-        return oneTestUser;
+        User testUser = new User();
+        testUser.setUsername("luismiguel");
+        testUser.setName("miguel");
+        testUser.setBirthdate(LocalDate.of(2018, 11, 23));
+        testUser.setPassword("123");
+        return testUser;
     }
 
     public static User mockUserToPersis() {
@@ -29,17 +29,17 @@ public class TestEntities {
     }
 
     public static Book mockBook() {
-        Book oneTestBook = new Book();
-        oneTestBook.setGenre("genre");
-        oneTestBook.setAuthor("author");
-        oneTestBook.setImage("image");
-        oneTestBook.setTitle("title");
-        oneTestBook.setSubtitle("subtitle");
-        oneTestBook.setPublisher("publisher");
-        oneTestBook.setYear("22");
-        oneTestBook.setPages("22");
-        oneTestBook.setIsbn("22");
-        return oneTestBook;
+        Book testBook = new Book();
+        testBook.setGenre("genre");
+        testBook.setAuthor("author");
+        testBook.setImage("image");
+        testBook.setTitle("title");
+        testBook.setSubtitle("subtitle");
+        testBook.setPublisher("publisher");
+        testBook.setYear("22");
+        testBook.setPages("22");
+        testBook.setIsbn("22");
+        return testBook;
     }
 
     public static Book mockBookToPersis() {

@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.Book;
 import wolox.training.util.TestEntities;
@@ -21,31 +26,34 @@ public class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
-    private static Book oneTestBook;
+    @Autowired
+    private TestEntityManager entityManager;
+
+    private static Book testBook;
     private static Book twoTestBook;
-    private static List<Book> manyTestBooks;
+    private static List<Book> testBooks;
 
     @BeforeAll
     static void setUp() {
-        oneTestBook = TestEntities.mockBook();
-        manyTestBooks = TestEntities.mockManyBooks();
+        testBook = TestEntities.mockBook();
+        testBooks = TestEntities.mockManyBooks();
         twoTestBook = TestEntities.mockBookToPersis();
     }
 
     @Test
     void whenCallFindAllBookThenReturnAllList() {
-        bookRepository.saveAll(manyTestBooks);
+        bookRepository.saveAll(testBooks);
         List<Book> bookList = bookRepository.findAll();
-        assertEquals(bookList.get(0).getAuthor(), manyTestBooks.get(0).getAuthor());
-        assertEquals(bookList.get(0).getId(), manyTestBooks.get(0).getId());
+        assertEquals(bookList.get(0).getAuthor(), testBooks.get(0).getAuthor());
+        assertEquals(bookList.get(0).getId(), testBooks.get(0).getId());
     }
 
     @Test
     void whenUpdateBookThenReturnBookUpdated() {
-        bookRepository.save(oneTestBook);
-        oneTestBook.setAuthor("miguel");
-        Book book = bookRepository.save(oneTestBook);
-        assertEquals(book.getAuthor(), oneTestBook.getAuthor());
+        bookRepository.save(testBook);
+        testBook.setAuthor("miguel");
+        Book book = bookRepository.save(testBook);
+        assertEquals(book.getAuthor(), testBook.getAuthor());
     }
 
     @Test
@@ -57,15 +65,17 @@ public class BookRepositoryTest {
 
     @Test
     void whenCallfindByPublisherAndGenreAndYearThenReturnListBook() {
-        bookRepository.save(oneTestBook);
-        Optional<List<Book>> books = bookRepository.findByPublisherAndGenreAndYear(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear());
-        assertEquals(books.get().get(0).getPublisher(), oneTestBook.getPublisher());
+        Pageable pageable = PageRequest.of(0, 1, Sort.by("author"));
+        bookRepository.save(testBook);
+        Page<Book> books = bookRepository.findByPublisherAndGenreAndYear(testBook.getPublisher(), testBook.getGenre(), testBook.getYear(), pageable);
+        assertEquals(books.getContent().iterator().next().getPublisher(), testBook.getPublisher());
     }
 
     @Test
     void whenCallfindByPublisherAndGenreAndYearQueryThenReturnListBook() {
-        bookRepository.save(oneTestBook);
-        Optional<List<Book>> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear());
-        assertEquals(books.get().get(0).getPublisher(), oneTestBook.getPublisher());
+        Pageable pageable = PageRequest.of(0, 1, Sort.by("author"));
+        bookRepository.save(testBook);
+        Page<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(testBook.getPublisher(), testBook.getGenre(), testBook.getYear(), pageable);
+        assertEquals(books.getContent().iterator().next().getPublisher(), testBook.getPublisher());
     }
 }

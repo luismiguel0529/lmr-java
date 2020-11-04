@@ -1,12 +1,13 @@
 package wolox.training.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,16 +22,21 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     public Optional<Book> findByIsbn(String isbn);
 
-    public Optional<List<Book>> findByPublisherAndGenreAndYear(String publisher, String genre, String year);
-
-    @Query("SELECT b from Book b "
-            + " WHERE (?1 is null OR b.publisher = ?1)"
-            + " AND (?2 is null OR b.genre = ?2)"
-            + " AND (?3 is null OR b.year = ?3)")
-    Optional<List<Book>> findAllByPublisherAndGenreAndYearQuery(
+    Page<Book> findByPublisherAndGenreAndYear(
             String publisher,
             String genre,
-            String year);
+            String year,
+            Pageable pageable);
+
+    @Query("SELECT b from Book b "
+            + " WHERE (?1 = '' OR b.publisher = ?1)"
+            + " AND (?2 = '' OR b.genre = ?2)"
+            + " AND (?3 = '' OR b.year = ?3)")
+    Page<Book> findAllByPublisherAndGenreAndYearQuery(
+            String publisher,
+            String genre,
+            String year,
+            Pageable pageable);
 
     @Query("SELECT b FROM Book b "
             + "WHERE  (b.id = CAST(:id as long) OR :id = '')"
@@ -44,9 +50,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             + "       OR ( b.year >= :startYear AND :endYear = '') "
             + "       OR ( b.year <= :endYear AND :startYear = '')) "
             + "AND (b.pages = :pages  OR :pages = '' ) "
-            + "AND (UPPER(b.isbn) LIKE UPPER(:isbn) OR :isbn = '') "
-    )
-    Optional<List<Book>> findByAllParameters(
+            + "AND (UPPER(b.isbn) LIKE UPPER(:isbn) OR :isbn = '') ")
+    Page<Book> findByAllParameters(
             @Param("id") String id,
             @Param("genre") String genre,
             @Param("author") String author,
@@ -57,6 +62,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             @Param("startYear") String startYear,
             @Param("endYear") String endYear,
             @Param("pages") String pages,
-            @Param("isbn") String isbn
-    );
+            @Param("isbn") String isbn,
+            Pageable pageable);
 }

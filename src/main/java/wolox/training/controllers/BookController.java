@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -172,15 +174,13 @@ public class BookController {
             @ApiResponse(code = 404, message = "Book not found")
     })
     @GetMapping("/{publisher}/{genre}/{year}")
-    public ResponseEntity<List<Book>> findByPublisherGenreYear(
+    public ResponseEntity<Page<Book>> findByPublisherGenreYear(
             @PathVariable String publisher,
             @PathVariable String genre,
-            @PathVariable String year) {
-
-        List<Book> book = bookRepository
-                .findByPublisherAndGenreAndYear(publisher, genre, year)
-                .orElseThrow(BookNotFoundException::new);
-
+            @PathVariable String year,
+            Pageable pageable) {
+        Page<Book> book = bookRepository
+                .findAllByPublisherAndGenreAndYearQuery(publisher, genre, year, pageable);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
@@ -206,7 +206,7 @@ public class BookController {
             @ApiResponse(code = 404, message = "Book not found")
     })
     @GetMapping("/parameters")
-    public ResponseEntity<List<Book>> findByParameters(
+    public ResponseEntity<Page<Book>> findByParameters(
             @RequestParam(required = false, defaultValue = "") String id,
             @RequestParam(required = false, defaultValue = "") String genre,
             @RequestParam(required = false, defaultValue = "") String author,
@@ -217,10 +217,10 @@ public class BookController {
             @RequestParam(required = false, defaultValue = "") String startYear,
             @RequestParam(required = false, defaultValue = "") String endYear,
             @RequestParam(required = false, defaultValue = "") String pages,
-            @RequestParam(required = false, defaultValue = "") String isbn) {
-        List<Book> books = bookRepository
-                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn)
-                .orElseThrow(BookNotFoundException::new);
+            @RequestParam(required = false, defaultValue = "") String isbn,
+            Pageable pageable) {
+        Page<Book> books = bookRepository
+                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn, pageable);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }
