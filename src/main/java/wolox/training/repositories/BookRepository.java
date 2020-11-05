@@ -60,6 +60,22 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             @Param("genre") String genre,
             @Param("year") String year);
 
+    /**
+     * Method to search book by any of the following parameters
+     *
+     * @param id variable to search object
+     * @param genre variable to search object
+     * @param author variable to search object
+     * @param image variable to search object
+     * @param title variable to search object
+     * @param subtitle variable to search object
+     * @param publisher variable to search object
+     * @param startYear variable to search object
+     * @param endYear variable to search object
+     * @param pages variable to search object
+     * @param isbn variable to search object
+     * @return return a book with specified parameters
+     */
     @Query("SELECT b FROM Book b "
             + "WHERE  (b.id = CAST(:id as long) OR :id = '')"
             + "AND (UPPER(b.genre) LIKE UPPER(:genre) OR :genre = '') "
