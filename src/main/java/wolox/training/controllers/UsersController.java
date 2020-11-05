@@ -69,22 +69,6 @@ public class UsersController {
     private IAuthenticationFacede iAuthenticationFacede;
 
     /**
-     * Method for find all elements
-     *
-     * @return returns all elements in BD
-     */
-    @ApiOperation(value = "Method to find all users", response = User.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfuly retrieved users"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource")
-    })
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Page<User> findAll(Pageable pageable) {
-        return usersRepository.findAll(pageable);
-    }
-
-    /**
      * Method for search elements
      *
      * @param id variable used to identify the element to search
@@ -225,13 +209,13 @@ public class UsersController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Authenticated user")
     })
-    @GetMapping("/parameters")
+    @GetMapping
     public ResponseEntity<Page<User>> findByBirthdateBetween(
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate endDate,
             @RequestParam(required = false, defaultValue = "") String name,
             Pageable pageable) {
-        Page<User> userList = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name,pageable);
+        Page<User> userList = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, name,pageable);
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 

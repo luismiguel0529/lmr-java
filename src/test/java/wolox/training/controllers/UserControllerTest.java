@@ -107,17 +107,6 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test,When a users is searched ,it return status OK")
-    void whenFindAllUserThenReturnStatusOK() throws Exception {
-        given(mockUsersRepository.findAll()).willReturn(testUsers);
-        String url = USER_PATH;
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
     @Test
     @DisplayName("Test , When a user is created , it return status Created")
     void whenCreateUserThenReturnStatusCreated() throws Exception {
@@ -245,7 +234,7 @@ class UserControllerTest {
         Pageable pageable = PageRequest.of(0,1);
         Page<User> users =new PageImpl<>(testUsers);
         given(mockUsersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(starDate, endDate, "miguel",pageable)).willReturn(users);
-        String url = (USER_PATH + "/parameters?startDate=2017-09-24&endDate=2020-09-24&name=miguel");
+        String url = (USER_PATH + "?startDate=2017-09-24&endDate=2020-09-24&name=miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

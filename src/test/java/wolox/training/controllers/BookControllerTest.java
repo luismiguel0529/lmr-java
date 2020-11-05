@@ -83,17 +83,6 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test,When a books is searched ,it return status OK")
-    void whenFindAllBookThenReturnStatusOK() throws Exception {
-        given(mockBookRepository.findAll()).willReturn(testBooks);
-        String url = USER_PATH;
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
     @Test
     @DisplayName("Test , When a book is created , it return status Created")
     void whenCreateBookThenReturnStatusCreated() throws Exception {
@@ -207,8 +196,8 @@ public class BookControllerTest {
         List<Book> books = new ArrayList<>();
         books.add(testBook);
         Page<Book> bookPage = new PageImpl<>(books);
-        given(mockBookRepository.findByAllParameters("1", "genre", "author", "image", "title", "subtitle", "publisher", "startYear", "endYear", "pages", "22", pageable)).willReturn(bookPage);
-        String url = (USER_PATH + "/parameters?genre=genre&author=author&image=image&title=title&subtitle=subtitle&publisher=publisher&startYear=10&endYear=2019&pages=22&isbn=22&id=1&page=1&size=4");
+        given(mockBookRepository.findByAllParameters( "genre", "author", "image", "title", "subtitle", "publisher", "startYear", "endYear", "pages", "22", pageable)).willReturn(bookPage);
+        String url = (USER_PATH + "?genre=genre&author=author&image=image&title=title&subtitle=subtitle&publisher=publisher&startYear=10&endYear=2019&pages=22&isbn=22&page=1&size=4");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

@@ -50,22 +50,6 @@ public class BookController {
     private OpenLibraryService openLibraryService;
 
     /**
-     * Method for find all elements
-     *
-     * @return returns all elements in BD
-     */
-    @ApiOperation(value = "Method to find all books", response = Book.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfuly retrieved books"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource")
-    })
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Page<Book> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable);
-    }
-
-    /**
      * Method for search elements
      *
      * @param id variable used to identify the element to search
@@ -177,14 +161,13 @@ public class BookController {
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year,
             Pageable pageable) {
-        Page<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year,pageable);
+        Page<Book> bookList = bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year,pageable);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
     /**
      * Method to search a book by all parameters
      *
-     * @param id        parameter to search by id
      * @param genre     parameter to search by genre
      * @param author    parameter to search by author
      * @param image     parameter to search by image
@@ -202,9 +185,8 @@ public class BookController {
             @ApiResponse(code = 200, message = "Book found successfully"),
             @ApiResponse(code = 404, message = "Book not found")
     })
-    @GetMapping("/parameters")
+    @GetMapping
     public ResponseEntity<Page<Book>> findByParameters(
-            @RequestParam(required = false, defaultValue = "") String id,
             @RequestParam(required = false, defaultValue = "") String genre,
             @RequestParam(required = false, defaultValue = "") String author,
             @RequestParam(required = false, defaultValue = "") String image,
@@ -217,7 +199,7 @@ public class BookController {
             @RequestParam(required = false, defaultValue = "") String isbn,
             Pageable pageable) {
         Page<Book> books = bookRepository
-                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn,pageable);
+                .findByAllParameters(genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn,pageable);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

@@ -90,14 +90,14 @@ public class BookRepositoryTest {
     @Test
     void whenCallfindByAllParametersWithSomeParametersEmptyThenRetunrAListBook(){
         bookRepository.save(testBook);
-        Page<Book> books = bookRepository.findByAllParameters("","","","","","",testBook.getPublisher(),"20","24",testBook.getPages(),testBook.getIsbn(),null);
+        Page<Book> books = bookRepository.findByAllParameters("","","","","",testBook.getPublisher(),"20","24",testBook.getPages(),testBook.getIsbn(),null);
         assertEquals(books.getContent().iterator().next().getAuthor(),testBook.getAuthor());
     }
 
     @Test
     void whenCallfindByAllParametersWithAllParametersEmptyThenRetunrAListBook(){
         bookRepository.save(testBook);
-        Page<Book> books = bookRepository.findByAllParameters("","","","","","","","","","","",null);
+        Page<Book> books = bookRepository.findByAllParameters("","","","","","","","","","",null);
         assertEquals(books.getContent().iterator().next().getAuthor(),testBook.getAuthor());
     }
 
