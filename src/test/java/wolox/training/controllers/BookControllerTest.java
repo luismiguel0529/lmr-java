@@ -192,11 +192,10 @@ public class BookControllerTest {
     void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
         Pageable pageable = PageRequest.of(1, 4);
         Page<Book> books = new PageImpl<>(testBooks);
-        given(mockBookRepository.findByPublisherAndGenreAndYear("publisher", "genre", "year", pageable)).willReturn(books);
-        String url = (USER_PATH + "/publisher/genre/year&page=1&size=4");
+        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(testBook.getPublisher(), testBook.getGenre(), testBook.getYear(),pageable)).willReturn(books);
+        String url = (USER_PATH + "/findby?publisher=publisher&genre=genre&year=22");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -208,8 +207,7 @@ public class BookControllerTest {
         List<Book> books = new ArrayList<>();
         books.add(testBook);
         Page<Book> bookPage = new PageImpl<>(books);
-        given(mockBookRepository
-                .findByAllParameters("1", "genre", "author", "image", "title", "subtitle", "publisher", "startYear", "endYear", "pages", "22", pageable)).willReturn(bookPage);
+        given(mockBookRepository.findByAllParameters("1", "genre", "author", "image", "title", "subtitle", "publisher", "startYear", "endYear", "pages", "22", pageable)).willReturn(bookPage);
         String url = (USER_PATH + "/parameters?genre=genre&author=author&image=image&title=title&subtitle=subtitle&publisher=publisher&startYear=10&endYear=2019&pages=22&isbn=22&id=1&page=1&size=4");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
