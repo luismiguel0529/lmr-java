@@ -2,6 +2,7 @@ package wolox.training.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
@@ -51,11 +52,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return return a book with specified parameters
      */
     @Query("SELECT b from Book b "
-            + " WHERE (?1 is null OR b.publisher = ?1)"
-            + " AND (?2 is null OR b.genre = ?2)"
-            + " AND (?3 is null OR b.year = ?3)")
+            + " WHERE (b.publisher = :publisher OR :publisher is null)"
+            + " AND (b.genre = :genre OR :genre is null)"
+            + " AND (b.year = :year OR :year is null)")
     Optional<List<Book>> findAllByPublisherAndGenreAndYearQuery(
-            String publisher,
-            String genre,
-            String year);
+            @Param("publisher") String publisher,
+            @Param("genre") String genre,
+            @Param("year") String year);
 }
