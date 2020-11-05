@@ -25,8 +25,6 @@ import wolox.training.models.dto.BookDTO;
 import wolox.training.repositories.BookRepository;
 import wolox.training.service.OpenLibraryService;
 
-import java.util.List;
-
 /**
  * Book controller containing the operations of update , find , delete , find by id and create
  *
@@ -177,7 +175,7 @@ public class BookController {
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year,
             Pageable pageable) {
-        Page<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year,pageable);
+        Page<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year, pageable);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
@@ -217,7 +215,7 @@ public class BookController {
             @RequestParam(required = false, defaultValue = "") String isbn,
             Pageable pageable) {
         Page<Book> books = bookRepository
-                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn,pageable);
+                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn, pageable);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

@@ -83,22 +83,22 @@ public class BookRepositoryTest {
     void whenCallfindByPublisherAndGenreAndYearQueryAndParameterNullThenReturnListBook() {
         Pageable pageable = PageRequest.of(0, 1);
         bookRepository.save(testBook);
-        Page<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(null, null, null,null);
+        Page<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(null, null, null, null);
         assertEquals(books.getContent().iterator().next().getPublisher(), testBook.getPublisher());
     }
 
     @Test
-    void whenCallfindByAllParametersWithSomeParametersEmptyThenRetunrAListBook(){
+    void whenCallfindByAllParametersWithSomeParametersEmptyThenRetunrAListBook() {
         bookRepository.save(testBook);
-        Page<Book> books = bookRepository.findByAllParameters("","","","","","",testBook.getPublisher(),"20","24",testBook.getPages(),testBook.getIsbn(),null);
-        assertEquals(books.getContent().iterator().next().getAuthor(),testBook.getAuthor());
+        Page<Book> books = bookRepository.findByAllParameters("", "", "", "", "", "", testBook.getPublisher(), "20", "24", testBook.getPages(), testBook.getIsbn(), null);
+        assertEquals(books.getContent().iterator().next().getAuthor(), testBook.getAuthor());
     }
 
     @Test
-    void whenCallfindByAllParametersWithAllParametersEmptyThenRetunrAListBook(){
+    void whenCallfindByAllParametersWithAllParametersEmptyThenRetunrAListBook() {
         bookRepository.save(testBook);
-        Page<Book> books = bookRepository.findByAllParameters("","","","","","","","","","","",null);
-        assertEquals(books.getContent().iterator().next().getAuthor(),testBook.getAuthor());
+        Page<Book> books = bookRepository.findByAllParameters("", "", "", "", "", "", "", "", "", "", "", null);
+        assertEquals(books.getContent().iterator().next().getAuthor(), testBook.getAuthor());
     }
 
 }

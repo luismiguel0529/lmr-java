@@ -25,6 +25,7 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
 
     testCompile('junit:junit:4.12')
+    testCompile('com.github.tomakehurst:wiremock:2.27.2')
     testImplementation('com.h2database:h2:1.4.200')
     testImplementation('org.springframework.security:spring-security-test')
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
