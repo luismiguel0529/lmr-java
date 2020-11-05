@@ -30,7 +30,6 @@ import wolox.training.security.IAuthenticationFacede;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Users controller containing the operations of update , find , delete , find by id and create
@@ -228,9 +227,8 @@ public class UsersController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate endDate,
             @PathVariable String name) {
-        return usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name)
-                .map(users -> new ResponseEntity<>(users,HttpStatus.OK))
-                .orElseThrow(UsersNotFoundException::new);
+        List<User> userList = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name);
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
     /**

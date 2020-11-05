@@ -183,23 +183,11 @@ public class BookControllerTest {
     @Test
     @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status OK")
     void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
-        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(), anyString(), anyString())).willReturn(Optional.of(manyTestBooks));
+        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(), anyString(), anyString())).willReturn(manyTestBooks);
         String url = (USER_PATH + "/publisher/genre/year");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-    }
-
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status not found")
-    void whenFindByPublisherGenreAndYearThenReturnStatusNotFound() throws Exception {
-        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(), anyString(), anyString())).willReturn(Optional.empty());
-        String url = (USER_PATH + "/publisher/genre/year");
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNotFound());
     }
 }

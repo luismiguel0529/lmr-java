@@ -39,6 +39,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param year      variable to search object
      * @return return a book with specified parameters
      */
-    public Optional<List<Book>> findByPublisherAndGenreAndYear(String publisher, String genre, String year);
+    public List<Book> findByPublisherAndGenreAndYear(String publisher, String genre, String year);
 
 }

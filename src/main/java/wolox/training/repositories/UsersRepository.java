@@ -32,7 +32,7 @@ public interface UsersRepository extends JpaRepository<User, Long> {
      * @param name      variable to search object
      * @return return a user with specified parameters
      */
-    Optional<List<User>> findAllByBirthdateBetweenAndNameContainingIgnoreCase(
+    List<User> findAllByBirthdateBetweenAndNameContainingIgnoreCase(
             LocalDate startDate,
             LocalDate endDate,
             String name);

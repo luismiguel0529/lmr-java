@@ -174,8 +174,7 @@ public class BookController {
             @PathVariable String publisher,
             @PathVariable String genre,
             @PathVariable String year) {
-        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year)
-                .map(books -> new ResponseEntity<>(books,HttpStatus.OK))
-                .orElseThrow(BookNotFoundException::new);
+        List<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 }
