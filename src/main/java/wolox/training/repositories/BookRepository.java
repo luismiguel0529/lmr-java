@@ -52,13 +52,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return return a book with specified parameters
      */
     @Query("SELECT b from Book b "
-            + " WHERE (?1 is null OR b.publisher = ?1)"
-            + " AND (?2 is null OR b.genre = ?2)"
-            + " AND (?3 is null OR b.year = ?3)")
+            + " WHERE (b.publisher = :publisher OR :publisher is null)"
+            + " AND (b.genre = :genre OR :genre is null)"
+            + " AND (b.year = :year OR :year is null)")
     Optional<List<Book>> findAllByPublisherAndGenreAndYearQuery(
-            String publisher,
-            String genre,
-            String year);
+            @Param("publisher") String publisher,
+            @Param("genre") String genre,
+            @Param("year") String year);
 
     @Query("SELECT b FROM Book b "
             + "WHERE  (b.id = CAST(:id as long) OR :id = '')"
@@ -72,8 +72,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             + "       OR ( b.year >= :startYear AND :endYear = '') "
             + "       OR ( b.year <= :endYear AND :startYear = '')) "
             + "AND (b.pages = :pages  OR :pages = '' ) "
-            + "AND (UPPER(b.isbn) LIKE UPPER(:isbn) OR :isbn = '') "
-    )
+            + "AND (UPPER(b.isbn) LIKE UPPER(:isbn) OR :isbn = '') ")
     Optional<List<Book>> findByAllParameters(
             @Param("id") String id,
             @Param("genre") String genre,
@@ -85,6 +84,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             @Param("startYear") String startYear,
             @Param("endYear") String endYear,
             @Param("pages") String pages,
-            @Param("isbn") String isbn
-    );
+            @Param("isbn") String isbn);
 }

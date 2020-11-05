@@ -169,12 +169,12 @@ public class BookController {
             @ApiResponse(code = 200, message = "Book found successfully"),
             @ApiResponse(code = 404, message = "Book not found")
     })
-    @GetMapping("/{publisher}/{genre}/{year}")
+    @GetMapping("/findby")
     public ResponseEntity<List<Book>> findByPublisherGenreYear(
-            @PathVariable String publisher,
-            @PathVariable String genre,
-            @PathVariable String year) {
-        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year)
+            @RequestParam(required = false) String publisher,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String year) {
+        return bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year)
                 .map(books -> new ResponseEntity<>(books, HttpStatus.OK))
                 .orElseThrow(BookNotFoundException::new);
     }
