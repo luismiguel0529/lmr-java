@@ -183,11 +183,10 @@ public class BookControllerTest {
     @Test
     @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status OK")
     void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
-        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(), anyString(), anyString())).willReturn(manyTestBooks);
-        String url = (USER_PATH + "/publisher/genre/year");
+        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear())).willReturn(manyTestBooks);
+        String url = (USER_PATH + "/findby?publisher=publisher&genre=genre&year=22");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 }

@@ -36,7 +36,7 @@ public class TestEntities {
         oneTestBook.setTitle("title");
         oneTestBook.setSubtitle("subtitle");
         oneTestBook.setPublisher("publisher");
-        oneTestBook.setYear("222");
+        oneTestBook.setYear("22");
         oneTestBook.setPages("22");
         oneTestBook.setIsbn("22");
         return oneTestBook;

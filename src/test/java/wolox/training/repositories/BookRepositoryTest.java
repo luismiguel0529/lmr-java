@@ -42,10 +42,10 @@ public class BookRepositoryTest {
 
     @Test
     void whenUpdateBookThenReturnBookUpdated() {
-        oneTestBook.setAuthor("miguel");
         bookRepository.save(oneTestBook);
-        Optional<Book> book = bookRepository.findById(oneTestBook.getId());
-        assertEquals(book.get().getAuthor(), oneTestBook.getAuthor());
+        oneTestBook.setAuthor("miguel");
+        Book book = bookRepository.save(oneTestBook);
+        assertEquals(book.getAuthor(), oneTestBook.getAuthor());
     }
 
     @Test
@@ -53,5 +53,26 @@ public class BookRepositoryTest {
         bookRepository.save(twoTestBook);
         Optional<Book> book = bookRepository.findById(twoTestBook.getId());
         assertEquals(book.get().getId(), twoTestBook.getId());
+    }
+
+    @Test
+    void whenCallfindByPublisherAndGenreAndYearThenReturnListBook() {
+        bookRepository.save(oneTestBook);
+        List<Book> books = bookRepository.findByPublisherAndGenreAndYear(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear());
+        assertEquals(books.get(0).getPublisher(), oneTestBook.getPublisher());
+    }
+
+    @Test
+    void whenCallfindByPublisherAndGenreAndYearQueryThenReturnListBook() {
+        bookRepository.save(oneTestBook);
+        List<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear());
+        assertEquals(books.get(0).getPublisher(), oneTestBook.getPublisher());
+    }
+
+    @Test
+    void whenCallfindByPublisherAndGenreAndYearQueryAndParameterNullThenReturnListBook() {
+        bookRepository.save(oneTestBook);
+        List<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(null, null, null);
+        assertEquals(books.get(0).getPublisher(), oneTestBook.getPublisher());
     }
 }
