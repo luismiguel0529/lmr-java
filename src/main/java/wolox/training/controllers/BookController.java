@@ -48,22 +48,6 @@ public class BookController {
     private OpenLibraryService openLibraryService;
 
     /**
-     * Method for find all elements
-     *
-     * @return returns all elements in BD
-     */
-    @ApiOperation(value = "Method to find all books", response = Book.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfuly retrieved books"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource")
-    })
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Book> findAll() {
-        return bookRepository.findAll();
-    }
-
-    /**
      * Method for search elements
      *
      * @param id variable used to identify the element to search
@@ -174,7 +158,44 @@ public class BookController {
             @RequestParam(required = false) String publisher,
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year) {
-        List<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+        List<Book> bookList = bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
+    }
+
+    /**
+     * Method to search a book by all parameters
+     *
+     * @param genre     parameter to search by genre
+     * @param author    parameter to search by author
+     * @param image     parameter to search by image
+     * @param title     parameter to search by title
+     * @param subtitle  parameter to search by subtitle
+     * @param publisher parameter to search by publisher
+     * @param startYear parameter to filter by year (initial)
+     * @param endYear   parameter to filter by year  (final)
+     * @param pages     parameter to search by pages
+     * @param isbn      parameter to search by isbn
+     * @return book depending on the parameters
+     */
+    @ApiOperation(value = "Method to search a book by all parameters", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book found successfully"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
+    @GetMapping
+    public ResponseEntity<List<Book>> findByParameters(
+            @RequestParam(required = false, defaultValue = "") String genre,
+            @RequestParam(required = false, defaultValue = "") String author,
+            @RequestParam(required = false, defaultValue = "") String image,
+            @RequestParam(required = false, defaultValue = "") String title,
+            @RequestParam(required = false, defaultValue = "") String subtitle,
+            @RequestParam(required = false, defaultValue = "") String publisher,
+            @RequestParam(required = false, defaultValue = "") String startYear,
+            @RequestParam(required = false, defaultValue = "") String endYear,
+            @RequestParam(required = false, defaultValue = "") String pages,
+            @RequestParam(required = false, defaultValue = "") String isbn) {
+        List<Book> books = bookRepository
+                .findByAllParameters(genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn);
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

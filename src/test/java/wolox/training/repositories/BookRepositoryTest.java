@@ -75,4 +75,19 @@ public class BookRepositoryTest {
         List<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(null, null, null);
         assertEquals(books.get(0).getPublisher(), oneTestBook.getPublisher());
     }
+
+    @Test
+    void whenCallfindByAllParametersWithSomeParametersEmptyThenRetunrAListBook(){
+        bookRepository.save(oneTestBook);
+        List<Book> books = bookRepository.findByAllParameters("","","","","",oneTestBook.getPublisher(),"20","24",oneTestBook.getPages(),oneTestBook.getIsbn());
+        assertEquals(books.get(0).getAuthor(),oneTestBook.getAuthor());
+    }
+
+    @Test
+    void whenCallfindByAllParametersWithAllParametersEmptyThenRetunrAListBook(){
+        bookRepository.save(oneTestBook);
+        List<Book> books = bookRepository.findByAllParameters("","","","","","","","","","");
+        assertEquals(books.get(0).getAuthor(),oneTestBook.getAuthor());
+    }
+
 }

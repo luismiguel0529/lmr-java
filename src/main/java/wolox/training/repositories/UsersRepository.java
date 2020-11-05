@@ -47,6 +47,7 @@ public interface UsersRepository extends JpaRepository<User, Long> {
      * @param name      variable to search object
      * @return return a user with specified parameters
      */
+
     @Query("SELECT u FROM User u"
             + " WHERE ( u.birthdate >= :startDate OR cast(:startDate as date) is null)"
             + " OR ( u.birthdate <= :endDate OR cast(:endDate as date) is null)"

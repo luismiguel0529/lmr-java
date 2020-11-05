@@ -78,17 +78,6 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test,When a books is searched ,it return status OK")
-    void whenFindAllBookThenReturnStatusOK() throws Exception {
-        given(mockBookRepository.findAll()).willReturn(manyTestBooks);
-        String url = USER_PATH;
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
     @Test
     @DisplayName("Test , When a book is created , it return status Created")
     void whenCreateBookThenReturnStatusCreated() throws Exception {
@@ -156,6 +145,8 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(value = "miguel")
+    @Test
     @DisplayName("Test, When find a book by isbn , it retunr status OK")
     void whenFindBookByIsbnThenRetunrStatusOK() throws Exception {
         given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.of(oneTestBook));
@@ -187,6 +178,22 @@ public class BookControllerTest {
         String url = (USER_PATH + "/findby?publisher=publisher&genre=genre&year=22");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("Test , When a book is seached by many parameters ,it return status OK")
+    void whenFindByAllParametersThenReturnStatusOK() throws Exception {
+        given(mockBookRepository
+                .findByAllParameters( anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).willReturn(manyTestBooks);
+        String url = (USER_PATH + "?genre=genre&author=author&image=image&title=title&subtitle=subtitle&publisher=publisher&endYear=2019&startYear=10&pages=22&isbn=22&id=1");
+        String json = new ObjectMapper().writeValueAsString(oneTestBook);
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(json))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 }
