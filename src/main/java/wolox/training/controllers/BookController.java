@@ -48,22 +48,6 @@ public class BookController {
     private OpenLibraryService openLibraryService;
 
     /**
-     * Method for find all elements
-     *
-     * @return returns all elements in BD
-     */
-    @ApiOperation(value = "Method to find all books", response = Book.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfuly retrieved books"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource")
-    })
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Book> findAll() {
-        return bookRepository.findAll();
-    }
-
-    /**
      * Method for search elements
      *
      * @param id variable used to identify the element to search
@@ -174,7 +158,7 @@ public class BookController {
             @RequestParam(required = false) String publisher,
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year) {
-        List<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+        List<Book> bookList = bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
@@ -199,7 +183,7 @@ public class BookController {
             @ApiResponse(code = 200, message = "Book found successfully"),
             @ApiResponse(code = 404, message = "Book not found")
     })
-    @GetMapping("/parameters")
+    @GetMapping
     public ResponseEntity<List<Book>> findByParameters(
             @RequestParam(required = false, defaultValue = "") String id,
             @RequestParam(required = false, defaultValue = "") String genre,
