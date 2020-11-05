@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.training.exception.BookNotFoundException;
@@ -222,12 +223,12 @@ public class UsersController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Authenticated user")
     })
-    @GetMapping("/{startDate}/{endDate}/{name}")
+    @GetMapping("/parameters")
     public ResponseEntity<List<User>> findByBirthdateBetween(
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate startDate,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate endDate,
-            @PathVariable String name) {
-        return usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate endDate,
+            @RequestParam(required = false, defaultValue = "") String name) {
+        return usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, name)
                 .map(users -> new ResponseEntity<>(users, HttpStatus.OK))
                 .orElseThrow(UsersNotFoundException::new);
     }

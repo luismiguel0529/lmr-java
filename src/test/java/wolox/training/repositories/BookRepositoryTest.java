@@ -68,4 +68,11 @@ public class BookRepositoryTest {
         Optional<List<Book>> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear());
         assertEquals(books.get().get(0).getPublisher(), oneTestBook.getPublisher());
     }
+
+    @Test
+    void whenCallfindByPublisherAndGenreAndYearQueryAndParameterNullThenReturnListBook() {
+        bookRepository.save(oneTestBook);
+        Optional<List<Book>> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(null, null, null);
+        assertEquals(books.get().get(0).getPublisher(), oneTestBook.getPublisher());
+    }
 }

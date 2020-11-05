@@ -58,11 +58,9 @@ public class UserRepositoryTest {
     }
 
     @Test
-    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseQueryThenReturnListUser() {
-        LocalDate startDate = LocalDate.of(1992, 11, 11);
-        LocalDate endDate = LocalDate.of(2020, 11, 11);
+    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseQueryAndParametersNullThenReturnListUser() {
         usersRepository.save(oneTestUser);
-        Optional<List<User>> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, oneTestUser.getName());
+        Optional<List<User>> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(null, null, null);
         assertEquals(users.get().get(0).getBirthdate(), oneTestUser.getBirthdate());
     }
 }
