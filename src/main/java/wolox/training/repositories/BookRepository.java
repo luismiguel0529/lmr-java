@@ -55,7 +55,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             + " WHERE (b.publisher = :publisher OR :publisher is null)"
             + " AND (b.genre = :genre OR :genre is null)"
             + " AND (b.year = :year OR :year is null)")
-    Optional<List<Book>> findAllByPublisherAndGenreAndYearQuery(
+    List<Book> findAllByPublisherAndGenreAndYearQuery(
             @Param("publisher") String publisher,
             @Param("genre") String genre,
             @Param("year") String year);

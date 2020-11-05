@@ -51,7 +51,7 @@ public interface UsersRepository extends JpaRepository<User, Long> {
             + " WHERE ( u.birthdate >= :startDate OR cast(:startDate as date) is null)"
             + " OR ( u.birthdate <= :endDate OR cast(:endDate as date) is null)"
             + " OR (:name = '' OR UPPER(u.name) LIKE UPPER(:name))")
-    Optional<List<User>> findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(
+    List<User> findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             @Param("name") String name);
