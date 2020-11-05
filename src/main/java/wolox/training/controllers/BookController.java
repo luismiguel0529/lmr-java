@@ -24,7 +24,6 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.service.OpenLibraryService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Book controller containing the operations of update , find , delete , find by id and create
@@ -124,7 +123,7 @@ public class BookController {
      */
     @ApiOperation(value = "Method to delete a book", response = Book.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Successfuly deleted user"),
+            @ApiResponse(code = 204, message = "Successfuly deleted book"),
             @ApiResponse(code = 404, message = "Book not found")
     })
     @DeleteMapping("/{id}")
@@ -134,6 +133,18 @@ public class BookController {
         bookRepository.deleteById(id);
     }
 
+    /**
+     * Method to search a book by isbn
+     *
+     * @param isbn param to search book in external api or internal repository
+     * @return
+     */
+    @ApiOperation(value = "Method to search a book by isbn", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book found successfully"),
+            @ApiResponse(code = 201, message = "Book created"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
     @GetMapping("/find-by-isbn")
     public ResponseEntity<Book> findByIsbn(@RequestParam String isbn) {
         return bookRepository.findByIsbn(isbn)
@@ -145,4 +156,25 @@ public class BookController {
                 });
     }
 
+    /**
+     * Method to search a book by the following variables
+     *
+     * @param publisher variable used to create the filter
+     * @param genre     variable used to create the filter
+     * @param year      variable used to create the filter
+     * @return return a books as the specified parameters
+     */
+    @ApiOperation(value = "Method to search a book by (publisher,genre and year)", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book found successfully"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
+    @GetMapping("/{publisher}/{genre}/{year}")
+    public ResponseEntity<List<Book>> findByPublisherGenreYear(
+            @PathVariable String publisher,
+            @PathVariable String genre,
+            @PathVariable String year) {
+        List<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
+    }
 }

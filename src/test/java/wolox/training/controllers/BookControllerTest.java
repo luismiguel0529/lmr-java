@@ -156,8 +156,6 @@ public class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(value = "miguel")
-    @Test
     @DisplayName("Test, When find a book by isbn , it retunr status OK")
     void whenFindBookByIsbnThenRetunrStatusOK() throws Exception {
         given(mockBookRepository.findByIsbn(anyString())).willReturn(Optional.of(oneTestBook));
@@ -179,6 +177,17 @@ public class BookControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
 
+    @WithMockUser(value = "miguel")
+    @Test
+    @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status OK")
+    void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
+        given(mockBookRepository.findByPublisherAndGenreAndYear(anyString(), anyString(), anyString())).willReturn(manyTestBooks);
+        String url = (USER_PATH + "/publisher/genre/year");
+        mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

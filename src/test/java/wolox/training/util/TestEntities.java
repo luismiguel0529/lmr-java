@@ -14,8 +14,8 @@ public class TestEntities {
     public static User mockOneUser() {
         User oneTestUser = new User();
         oneTestUser.setUsername("luismiguel");
-        oneTestUser.setName("Luis Miguel");
-        oneTestUser.setBirthdate(LocalDate.of(1993, 11, 23));
+        oneTestUser.setName("miguel");
+        oneTestUser.setBirthdate(LocalDate.of(2018, 11, 23));
         oneTestUser.setPassword("123");
         return oneTestUser;
     }
