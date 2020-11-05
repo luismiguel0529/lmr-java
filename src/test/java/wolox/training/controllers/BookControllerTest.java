@@ -185,7 +185,7 @@ public class BookControllerTest {
     @Test
     @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status OK")
     void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
-        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear())).willReturn(Optional.of(manyTestBooks));
+        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(oneTestBook.getPublisher(), oneTestBook.getGenre(), oneTestBook.getYear())).willReturn(manyTestBooks);
         String url = (USER_PATH + "/findby?publisher=publisher&genre=genre&year=22");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -197,7 +197,7 @@ public class BookControllerTest {
     @DisplayName("Test , When a book is seached by many parameters ,it return status OK")
     void whenFindByAllParametersThenReturnStatusOK() throws Exception {
         given(mockBookRepository
-                .findByAllParameters(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).willReturn(Optional.of(manyTestBooks));
+                .findByAllParameters(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).willReturn(manyTestBooks);
         String url = (USER_PATH + "/parameters?genre=genre&author=author&image=image&title=title&subtitle=subtitle&publisher=publisher&endYear=2019&startYear=10&pages=22&isbn=22&id=1");
         String json = new ObjectMapper().writeValueAsString(oneTestBook);
         mvc.perform(get(url)
@@ -206,30 +206,5 @@ public class BookControllerTest {
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk());
-    }
-
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test , When a book is seached by many parameters ,it return status No Found")
-    void whenFindByAllParametersThenReturnStatusNoFound() throws Exception {
-        given(mockBookRepository
-                .findByAllParameters(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).willReturn(Optional.empty());
-        String url = (USER_PATH + "/parameters?genre=genre&author=author&image=image&title=title&subtitle=subtitle&publisher=publisher&endYear=2019&startYear=10&pages=22&isbn=22&id=1");
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8"))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status not found")
-    void whenFindByPublisherGenreAndYearThenReturnStatusNotFound() throws Exception {
-        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(anyString(), anyString(), anyString())).willReturn(Optional.empty());
-        String url = (USER_PATH + "/findby?publisher=publisher&genre=genre&year=22");
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 }

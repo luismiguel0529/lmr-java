@@ -228,9 +228,8 @@ public class UsersController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate endDate,
             @RequestParam(required = false, defaultValue = "") String name) {
-        return usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, name)
-                .map(users -> new ResponseEntity<>(users, HttpStatus.OK))
-                .orElseThrow(UsersNotFoundException::new);
+        List<User> userList = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name);
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
     /**

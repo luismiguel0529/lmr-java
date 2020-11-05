@@ -34,7 +34,7 @@ public interface UsersRepository extends JpaRepository<User, Long> {
      * @param name      variable to search object
      * @return return a user with specified parameters
      */
-    Optional<List<User>> findAllByBirthdateBetweenAndNameContainingIgnoreCase(
+    List<User> findAllByBirthdateBetweenAndNameContainingIgnoreCase(
             LocalDate startDate,
             LocalDate endDate,
             String name);
@@ -47,11 +47,12 @@ public interface UsersRepository extends JpaRepository<User, Long> {
      * @param name      variable to search object
      * @return return a user with specified parameters
      */
+
     @Query("SELECT u FROM User u"
             + " WHERE ( u.birthdate >= :startDate OR cast(:startDate as date) is null)"
-            + " AND ( u.birthdate <= :endDate OR cast(:endDate as date) is null)"
-            + " AND (:name = '' OR UPPER(u.name) LIKE UPPER(:name))")
-    Optional<List<User>> findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(
+            + " OR ( u.birthdate <= :endDate OR cast(:endDate as date) is null)"
+            + " OR (:name = '' OR UPPER(u.name) LIKE UPPER(:name))")
+    List<User> findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             @Param("name") String name);

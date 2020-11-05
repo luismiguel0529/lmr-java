@@ -238,24 +238,11 @@ class UserControllerTest {
     void whenFindUserBetweenBirthdateThenReturnStatusOK() throws Exception {
         LocalDate starDate = LocalDate.of(2017, 9, 24);
         LocalDate endDate = LocalDate.of(2020, 9, 24);
-        given(mockUsersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(starDate, endDate, "miguel")).willReturn(Optional.of(manyTestUsers));
+        given(mockUsersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(starDate, endDate, "miguel")).willReturn(manyTestUsers);
         String url = (USER_PATH + "/parameters?startDate=2017-09-24&endDate=2020-09-24&name=miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
-
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("test, When find user by birthdate between two date, it return status not found")
-    void whenFindUserBetweenBirthdateThenReturnStatusNotFound() throws Exception {
-        LocalDate starDate = LocalDate.of(2017, 9, 24);
-        LocalDate endDate = LocalDate.of(2020, 9, 24);
-        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate, endDate, "miguel")).willReturn(Optional.empty());
-        String url = (USER_PATH + "/2017-09-24/2020-09-24/miguel");
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 
     @WithMockUser(value = "miguel")

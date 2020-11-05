@@ -174,9 +174,8 @@ public class BookController {
             @RequestParam(required = false) String publisher,
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year) {
-        return bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year)
-                .map(books -> new ResponseEntity<>(books, HttpStatus.OK))
-                .orElseThrow(BookNotFoundException::new);
+        List<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
     /**
@@ -214,8 +213,7 @@ public class BookController {
             @RequestParam(required = false, defaultValue = "") String pages,
             @RequestParam(required = false, defaultValue = "") String isbn) {
         List<Book> books = bookRepository
-                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn)
-                .orElseThrow(BookNotFoundException::new);
+                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }
