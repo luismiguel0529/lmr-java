@@ -174,8 +174,7 @@ public class BookController {
             @RequestParam(required = false) String publisher,
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year) {
-        return bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year)
-                .map(books -> new ResponseEntity<>(books, HttpStatus.OK))
-                .orElseThrow(BookNotFoundException::new);
+        List<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 }

@@ -189,15 +189,4 @@ public class BookControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
-    @WithMockUser(value = "miguel")
-    @Test
-    @DisplayName("Test , When a book is seached by publisher , genre and year ,it return status not found")
-    void whenFindByPublisherGenreAndYearThenReturnStatusNotFound() throws Exception {
-        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(anyString(), anyString(), anyString())).willReturn(Optional.empty());
-        String url = (USER_PATH + "/findby?publisher=publisher&genre=genre&year=22");
-        mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
 }

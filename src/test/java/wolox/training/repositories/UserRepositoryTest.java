@@ -52,8 +52,8 @@ public class UserRepositoryTest {
         LocalDate startDate = LocalDate.of(1992, 11, 11);
         LocalDate endDate = LocalDate.of(2020, 11, 11);
         usersRepository.save(oneTestUser);
-        Optional<List<User>> users = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, oneTestUser.getName());
-        assertEquals(users.get().get(0).getBirthdate(), oneTestUser.getBirthdate());
+        List<User> users = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, oneTestUser.getName());
+        assertEquals(users.get(0).getBirthdate(), oneTestUser.getBirthdate());
     }
 
     @Test
