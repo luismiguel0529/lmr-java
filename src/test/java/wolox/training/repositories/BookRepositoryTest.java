@@ -78,4 +78,12 @@ public class BookRepositoryTest {
         Page<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(testBook.getPublisher(), testBook.getGenre(), testBook.getYear(), pageable);
         assertEquals(books.getContent().iterator().next().getPublisher(), testBook.getPublisher());
     }
+
+    @Test
+    void whenCallfindByPublisherAndGenreAndYearQueryAndParameterNullThenReturnListBook() {
+        Pageable pageable = PageRequest.of(0, 1);
+        bookRepository.save(testBook);
+        Page<Book> books = bookRepository.findAllByPublisherAndGenreAndYearQuery(null, null, null,null);
+        assertEquals(books.getContent().iterator().next().getPublisher(), testBook.getPublisher());
+    }
 }

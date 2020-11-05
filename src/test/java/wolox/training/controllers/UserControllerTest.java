@@ -244,8 +244,8 @@ class UserControllerTest {
         LocalDate endDate = LocalDate.of(2020, 9, 24);
         Pageable pageable = PageRequest.of(0,1);
         Page<User> users =new PageImpl<>(testUsers);
-        given(mockUsersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(starDate, endDate, "miguel",pageable)).willReturn(users);
-        String url = (USER_PATH + "/2017-09-24/2020-09-24/miguel");
+        given(mockUsersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(starDate, endDate, "miguel",pageable)).willReturn(users);
+        String url = (USER_PATH + "/parameters?startDate=2017-09-24&endDate=2020-09-24&name=miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

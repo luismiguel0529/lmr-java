@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.User;
 
@@ -50,12 +51,12 @@ public interface UsersRepository extends JpaRepository<User, Long> {
      * @return return a user with specified parameters
      */
     @Query("SELECT u FROM User u"
-            + " WHERE (cast(?1 as date) is null OR u.birthdate >= ?1)"
-            + " AND (cast(?2 as date) is null OR u.birthdate <= ?2)"
-            + " AND (?3 = '' OR UPPER(?3) LIKE UPPER(?3))")
+            + " WHERE ( u.birthdate >= :startDate OR cast(:startDate as date) is null)"
+            + " OR ( u.birthdate <= :endDate OR cast(:endDate as date) is null)"
+            + " OR (:name = '' OR UPPER(u.name) LIKE UPPER(:name))")
     Page<User> findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(
-            LocalDate startDate,
-            LocalDate endDate,
-            String name,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            @Param("name") String name,
             Pageable pageable);
 }
