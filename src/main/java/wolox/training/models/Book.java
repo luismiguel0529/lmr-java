@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +29,10 @@ import java.util.List;
  * @author luismiguelrodriguez
  */
 @Entity
+@Getter
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 @ApiModel(description = "Book Model")
 public class Book {
 
@@ -80,40 +88,12 @@ public class Book {
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
-    public Book() {
-    }
-
-    public Book(Long id, String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
-        this.id = id;
-        this.genre = genre;
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.pages = pages;
-        this.isbn = isbn;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
     public void setGenre(String genre) {
         this.genre = genre;
-    }
-
-    public String getAuthor() {
-        return author;
     }
 
     public void setAuthor(String author) {
@@ -121,17 +101,9 @@ public class Book {
         this.author = author;
     }
 
-    public String getImage() {
-        return image;
-    }
-
     public void setImage(String image) {
         Preconditions.checkNotNull(image, "Image field is required");
         this.image = image;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
@@ -139,26 +111,14 @@ public class Book {
         this.title = title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
-    }
-
     public void setSubtitle(String subtitle) {
         Preconditions.checkNotNull(subtitle, "Subtitle field is required");
         this.subtitle = subtitle;
     }
 
-    public String getPublisher() {
-        return publisher;
-    }
-
     public void setPublisher(String publisher) {
         Preconditions.checkNotNull(publisher, "Publisher field is required");
         this.publisher = publisher;
-    }
-
-    public String getYear() {
-        return year;
     }
 
     public void setYear(String year) {
@@ -167,18 +127,10 @@ public class Book {
         this.year = year;
     }
 
-    public String getPages() {
-        return pages;
-    }
-
     public void setPages(String pages) {
         Preconditions.checkNotNull(pages, "Pages field is required");
         Preconditions.checkArgument(Integer.parseInt(pages) > 0, "Invalid number of pages, must be greater than zero");
         this.pages = pages;
-    }
-
-    public String getIsbn() {
-        return isbn;
     }
 
     public void setIsbn(String isbn) {

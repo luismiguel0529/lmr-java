@@ -175,7 +175,7 @@ public class BookController {
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year,
             Pageable pageable) {
-        Page<Book> bookList = bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year, pageable);
+        Page<Book> bookList = bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year, pageable);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
