@@ -165,7 +165,6 @@ public class BookController {
     /**
      * Method to search a book by all parameters
      *
-     * @param id        parameter to search by id
      * @param genre     parameter to search by genre
      * @param author    parameter to search by author
      * @param image     parameter to search by image
@@ -185,7 +184,6 @@ public class BookController {
     })
     @GetMapping
     public ResponseEntity<List<Book>> findByParameters(
-            @RequestParam(required = false, defaultValue = "") String id,
             @RequestParam(required = false, defaultValue = "") String genre,
             @RequestParam(required = false, defaultValue = "") String author,
             @RequestParam(required = false, defaultValue = "") String image,
@@ -197,7 +195,7 @@ public class BookController {
             @RequestParam(required = false, defaultValue = "") String pages,
             @RequestParam(required = false, defaultValue = "") String isbn) {
         List<Book> books = bookRepository
-                .findByAllParameters(id, genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn);
+                .findByAllParameters(genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

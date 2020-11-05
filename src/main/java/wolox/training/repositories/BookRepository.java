@@ -63,7 +63,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * Method to search book by any of the following parameters
      *
-     * @param id variable to search object
      * @param genre variable to search object
      * @param author variable to search object
      * @param image variable to search object
@@ -77,7 +76,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return return a book with specified parameters
      */
     @Query("SELECT b FROM Book b "
-            + "WHERE  (b.id = CAST(:id as long) OR :id = '')"
+            + "WHERE  (UPPER(b.isbn) LIKE UPPER(:isbn) OR :isbn = '')"
             + "AND (UPPER(b.genre) LIKE UPPER(:genre) OR :genre = '') "
             + "AND (UPPER(b.author) LIKE UPPER(:author) OR :author = '') "
             + "AND (UPPER(b.image) LIKE UPPER(:image) OR :image = '') "
@@ -87,10 +86,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             + "AND  ((b.year BETWEEN :startYear AND :endYear) "
             + "       OR ( b.year >= :startYear AND :endYear = '') "
             + "       OR ( b.year <= :endYear AND :startYear = '')) "
-            + "AND (b.pages = :pages  OR :pages = '' ) "
-            + "AND (UPPER(b.isbn) LIKE UPPER(:isbn) OR :isbn = '') ")
+            + "AND (b.pages = :pages  OR :pages = '' ) ")
     List<Book> findByAllParameters(
-            @Param("id") String id,
             @Param("genre") String genre,
             @Param("author") String author,
             @Param("image") String image,

@@ -186,7 +186,7 @@ public class BookControllerTest {
     @DisplayName("Test , When a book is seached by many parameters ,it return status OK")
     void whenFindByAllParametersThenReturnStatusOK() throws Exception {
         given(mockBookRepository
-                .findByAllParameters(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).willReturn(manyTestBooks);
+                .findByAllParameters( anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).willReturn(manyTestBooks);
         String url = (USER_PATH + "?genre=genre&author=author&image=image&title=title&subtitle=subtitle&publisher=publisher&endYear=2019&startYear=10&pages=22&isbn=22&id=1");
         String json = new ObjectMapper().writeValueAsString(oneTestBook);
         mvc.perform(get(url)
