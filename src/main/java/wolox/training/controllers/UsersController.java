@@ -231,9 +231,8 @@ public class UsersController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate endDate,
             @RequestParam(required = false, defaultValue = "") String name,
             Pageable pageable) {
-        return ResponseEntity
-                .ok()
-                .body(usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, name, pageable));
+        Page<User> userList = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, name,pageable);
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
     /**
