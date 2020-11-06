@@ -29,7 +29,10 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -181,7 +184,7 @@ public class BookControllerTest {
     void whenFindByPublisherGenreAndYearThenReturnStatusOK() throws Exception {
         Pageable pageable = PageRequest.of(1, 4);
         Page<Book> books = new PageImpl<>(testBooks);
-        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(testBook.getPublisher(), testBook.getGenre(), testBook.getYear(),pageable)).willReturn(books);
+        given(mockBookRepository.findAllByPublisherAndGenreAndYearQuery(testBook.getPublisher(), testBook.getGenre(), testBook.getYear(), pageable)).willReturn(books);
         String url = (USER_PATH + "/findby?publisher=publisher&genre=genre&year=22");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))

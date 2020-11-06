@@ -25,8 +25,6 @@ import wolox.training.models.dto.BookDTO;
 import wolox.training.repositories.BookRepository;
 import wolox.training.service.OpenLibraryService;
 
-import java.util.List;
-
 /**
  * Book controller containing the operations of update , find , delete , find by id and create
  *

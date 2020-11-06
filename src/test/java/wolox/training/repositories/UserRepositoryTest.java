@@ -64,7 +64,7 @@ public class UserRepositoryTest {
     @Test
     void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseQueryAndParametersNullThenReturnListUser() {
         usersRepository.save(testUser);
-        Page<User>users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(null, null, "",null);
+        Page<User> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(null, null, "", null);
         assertEquals(users.getContent().iterator().next().getBirthdate(), testUser.getBirthdate());
     }
 }

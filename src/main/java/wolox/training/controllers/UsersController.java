@@ -32,7 +32,6 @@ import wolox.training.repositories.UsersRepository;
 import wolox.training.security.IAuthenticationFacede;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Users controller containing the operations of update , find , delete , find by id and create
