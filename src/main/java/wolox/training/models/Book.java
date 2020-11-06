@@ -82,14 +82,6 @@ public class Book {
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     public void setAuthor(String author) {
         Preconditions.checkNotNull(author, "Author field is required");
         this.author = author;
@@ -135,5 +127,4 @@ public class Book {
     public List<User> getUsers() {
         return Collections.unmodifiableList(users);
     }
-
 }

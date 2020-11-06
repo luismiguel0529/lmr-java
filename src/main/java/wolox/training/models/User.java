@@ -78,14 +78,6 @@ public class User {
     @JsonProperty("user_type")
     private String userType;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setUsername(String username) {
         Preconditions.checkNotNull(username, "Username field is required");
         this.username = username;
@@ -103,10 +95,6 @@ public class User {
 
     public List<Book> getBooks() {
         return Collections.unmodifiableList(books);
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
     }
 
     /**
