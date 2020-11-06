@@ -2,9 +2,9 @@ package wolox.training.service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,14 @@ public class OpenLibraryServiceTest {
     @Autowired
     private OpenLibraryService openLibraryService;
 
-    private WireMockServer wireMockServer;
+    private static WireMockServer wireMockServer;
     private static final String isbnSuccess = "0385472579";
     private static final String isbnFail = "2";
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    public static void setUp() {
+
+
         String url = "/api/books?bibkeys=ISBN:%s&format=json&jscmd=data";
         wireMockServer = new WireMockServer(8085);
         wireMockServer.start();
@@ -64,8 +66,8 @@ public class OpenLibraryServiceTest {
     }
 
 
-    @AfterEach
-    void setDown() {
+    @AfterAll
+    public static void setDown() {
         wireMockServer.stop();
     }
 }
