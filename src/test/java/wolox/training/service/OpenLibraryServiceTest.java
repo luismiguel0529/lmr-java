@@ -58,12 +58,10 @@ public class OpenLibraryServiceTest {
     }
 
     @Test
-    @DisplayName("Test, when search a book ,it returns not found\n" +
-            "\n")
+    @DisplayName("Test, when search a book ,it returns not found")
     void whenFIndBookByIsbnThenReturnNotFound() {
         Assertions.assertThrows(BookNotFoundException.class, () -> openLibraryService.findInfoBook(isbnFail));
     }
-
 
     @AfterEach
     void setDown() {
