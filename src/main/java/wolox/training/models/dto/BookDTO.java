@@ -50,7 +50,7 @@ public class BookDTO {
     public static BookDTO setBookDto(ObjectNode node, String isbn) {
         final String isbnQuery = "ISBN:" + isbn;
         ObjectMapper mapper = new ObjectMapper();
-        BookDTO bookDTO = BookDTO
+        return BookDTO
                 .builder()
                 .isbn(isbn)
                 .title(mapper.convertValue(node.get(isbnQuery).get("title"), String.class))
@@ -60,6 +60,5 @@ public class BookDTO {
                 .numberOfPages(mapper.convertValue(node.get(isbnQuery).get("number_of_pages"), String.class))
                 .authors(mapper.convertValue(node.get(isbnQuery).get("authors"), List.class))
                 .build();
-        return bookDTO;
     }
 }

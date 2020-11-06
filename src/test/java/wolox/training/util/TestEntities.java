@@ -81,7 +81,7 @@ public class TestEntities {
         hashMap.put("name", "name");
         List<HashMap<String, String>> mockListHash = new ArrayList<>();
         mockListHash.add(hashMap);
-        BookDTO bookDTO = BookDTO
+        return BookDTO
                 .builder()
                 .isbn("ISBN")
                 .title("title")
@@ -91,6 +91,5 @@ public class TestEntities {
                 .numberOfPages("1")
                 .authors(mockListHash)
                 .build();
-        return bookDTO;
     }
 }
