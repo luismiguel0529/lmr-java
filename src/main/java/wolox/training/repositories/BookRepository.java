@@ -1,12 +1,13 @@
 package wolox.training.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,7 +42,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param year      variable to search object
      * @return return a book with specified parameters
      */
-    public List<Book> findByPublisherAndGenreAndYear(String publisher, String genre, String year);
+    Page<Book> findByPublisherAndGenreAndYear(
+            String publisher,
+            String genre,
+            String year,
+            Pageable pageable);
+
 
     /**
      * Method to search book by publisher or genre or year
@@ -55,10 +61,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             + " WHERE (b.publisher = :publisher OR :publisher is null)"
             + " AND (b.genre = :genre OR :genre is null)"
             + " AND (b.year = :year OR :year is null)")
-    List<Book> findAllByPublisherAndGenreAndYearQuery(
+    Page<Book> findAllByPublisherAndGenreAndYearQuery(
             @Param("publisher") String publisher,
             @Param("genre") String genre,
-            @Param("year") String year);
+            @Param("year") String year,
+            Pageable pageable);
 
     /**
      * Method to search book by any of the following parameters
@@ -87,7 +94,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             + "       OR ( b.year >= :startYear AND :endYear = '') "
             + "       OR ( b.year <= :endYear AND :startYear = '')) "
             + "AND (b.pages = :pages  OR :pages = '' ) ")
-    List<Book> findByAllParameters(
+    Page<Book> findByAllParameters(
             @Param("genre") String genre,
             @Param("author") String author,
             @Param("image") String image,
@@ -97,5 +104,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             @Param("startYear") String startYear,
             @Param("endYear") String endYear,
             @Param("pages") String pages,
-            @Param("isbn") String isbn);
+            @Param("isbn") String isbn,
+            Pageable pageable);
 }

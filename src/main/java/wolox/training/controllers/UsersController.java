@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -208,11 +210,12 @@ public class UsersController {
             @ApiResponse(code = 200, message = "Authenticated user")
     })
     @GetMapping
-    public ResponseEntity<List<User>> findByBirthdateBetween(
+    public ResponseEntity<Page<User>> findByBirthdateBetween(
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(required = false, defaultValue = "") LocalDate endDate,
-            @RequestParam(required = false, defaultValue = "") String name) {
-        List<User> userList = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, name);
+            @RequestParam(required = false, defaultValue = "") String name,
+            Pageable pageable) {
+        Page<User> userList = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, name,pageable);
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 

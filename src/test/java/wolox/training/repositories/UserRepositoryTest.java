@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.User;
 import wolox.training.util.TestEntities;
@@ -22,45 +25,46 @@ public class UserRepositoryTest {
     @Autowired
     private UsersRepository usersRepository;
 
-    private static User oneTestUser;
-    private static List<User> manyTestUsers;
+    private static User testUser;
+    private static List<User> testUsers;
 
     @BeforeAll
     static void setUp() {
-        oneTestUser = TestEntities.mockOneUser();
-        manyTestUsers = TestEntities.mockManyUsers();
+        testUser = TestEntities.mockOneUser();
+        testUsers = TestEntities.mockManyUsers();
     }
 
     @Test
     void whenCallFindAllUserThenReturnAllList() {
-        usersRepository.saveAll(manyTestUsers);
+        usersRepository.saveAll(testUsers);
         List<User> userList = usersRepository.findAll();
-        assertEquals(userList.get(0).getName(), manyTestUsers.get(0).getName());
-        assertEquals(userList.get(0).getId(), manyTestUsers.get(0).getId());
+        assertEquals(userList.get(0).getName(), testUsers.get(0).getName());
+        assertEquals(userList.get(0).getId(), testUsers.get(0).getId());
     }
 
     @Test
     void whenUpdateUserThenReturnUserUpdated() {
-        usersRepository.save(oneTestUser);
-        oneTestUser.setName("miguel");
-        usersRepository.save(oneTestUser);
-        Optional<User> persistedUser = usersRepository.findById(oneTestUser.getId());
-        assertEquals(oneTestUser.getName(), persistedUser.get().getName());
+        usersRepository.save(testUser);
+        testUser.setName("miguel");
+        usersRepository.save(testUser);
+        Optional<User> persistedUser = usersRepository.findById(testUser.getId());
+        assertEquals(testUser.getName(), persistedUser.get().getName());
     }
 
     @Test
-    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseThenReturnListUser() {
+    void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseQueryThenReturnListUser() {
+        Pageable pageable = PageRequest.of(0, 1);
         LocalDate startDate = LocalDate.of(1992, 11, 11);
         LocalDate endDate = LocalDate.of(2020, 11, 11);
-        usersRepository.save(oneTestUser);
-        List<User> users = usersRepository.findAllByBirthdateBetweenAndNameContainingIgnoreCase(startDate, endDate, oneTestUser.getName());
-        assertEquals(users.get(0).getBirthdate(), oneTestUser.getBirthdate());
+        usersRepository.save(testUser);
+        Page<User> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(startDate, endDate, testUser.getName(), pageable);
+        assertEquals(users.getContent().iterator().next().getBirthdate(), testUser.getBirthdate());
     }
 
     @Test
     void whenCallFindAllByBirthdateBetweenAndNameContainingIgnoreCaseQueryAndParametersNullThenReturnListUser() {
-        usersRepository.save(oneTestUser);
-        List<User> users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(null, null, null);
-        assertEquals(users.get(0).getBirthdate(), oneTestUser.getBirthdate());
+        usersRepository.save(testUser);
+        Page<User>users = usersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(null, null, "",null);
+        assertEquals(users.getContent().iterator().next().getBirthdate(), testUser.getBirthdate());
     }
 }
