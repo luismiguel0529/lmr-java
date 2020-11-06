@@ -5,10 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 import wolox.training.exception.BookAlreadyOwnedException;
 import wolox.training.exception.BookNotFoundException;
 
@@ -34,10 +31,7 @@ import java.util.List;
  * @author luismiguelrodriguez
  */
 @Entity
-@Getter
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor
+@Data
 @ApiModel(description = "Users Model")
 @Table(name = "users")
 public class User {
@@ -129,6 +123,5 @@ public class User {
             throw new BookNotFoundException();
         }
     }
-
 }
 

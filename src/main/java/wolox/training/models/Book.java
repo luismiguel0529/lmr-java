@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,10 +26,7 @@ import java.util.List;
  * @author luismiguelrodriguez
  */
 @Entity
-@Getter
-@NoArgsConstructor
-@ToString
-@EqualsAndHashCode
+@Data
 @ApiModel(description = "Book Model")
 public class Book {
 
@@ -140,10 +134,6 @@ public class Book {
 
     public List<User> getUsers() {
         return Collections.unmodifiableList(users);
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 
 }

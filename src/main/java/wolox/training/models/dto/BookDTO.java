@@ -3,21 +3,13 @@ package wolox.training.models.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import wolox.training.models.Book;
 
 import java.util.HashMap;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
-@EqualsAndHashCode
+@Data
 public class BookDTO {
 
     private String isbn;

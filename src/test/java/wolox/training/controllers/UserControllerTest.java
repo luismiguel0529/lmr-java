@@ -231,9 +231,9 @@ class UserControllerTest {
     void whenFindUserBetweenBirthdateThenReturnStatusOK() throws Exception {
         LocalDate starDate = LocalDate.of(2017, 9, 24);
         LocalDate endDate = LocalDate.of(2020, 9, 24);
-        Pageable pageable = PageRequest.of(0,1);
-        Page<User> users =new PageImpl<>(testUsers);
-        given(mockUsersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(starDate, endDate, "miguel",pageable)).willReturn(users);
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<User> users = new PageImpl<>(testUsers);
+        given(mockUsersRepository.findByBirthdateBetweenAndNameContainingIgnoreCaseQuery(starDate, endDate, "miguel", pageable)).willReturn(users);
         String url = (USER_PATH + "?startDate=2017-09-24&endDate=2020-09-24&name=miguel");
         mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
