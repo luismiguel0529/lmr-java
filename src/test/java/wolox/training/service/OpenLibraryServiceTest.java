@@ -14,7 +14,9 @@ import org.springframework.http.MediaType;
 import wolox.training.exception.BookNotFoundException;
 import wolox.training.models.dto.BookDTO;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 
 @SpringBootTest
 public class OpenLibraryServiceTest {
@@ -46,7 +48,7 @@ public class OpenLibraryServiceTest {
     }
 
     @Test
-    @DisplayName("Test,When find a book ,it retunr a book")
+    @DisplayName("Test, when search a book ,it returns a book")
     void whenFindBookByIsbnThenReturnBook() {
         BookDTO bookDTO = openLibraryService.findInfoBook(isbnSuccess);
         Assert.assertEquals("0385472579", bookDTO.getIsbn());
@@ -56,7 +58,8 @@ public class OpenLibraryServiceTest {
     }
 
     @Test
-    @DisplayName("Test,When find a book ,it retunr a not found")
+    @DisplayName("Test, when search a book ,it returns not found\n" +
+            "\n")
     void whenFIndBookByIsbnThenReturnNotFound() {
         Assertions.assertThrows(BookNotFoundException.class, () -> openLibraryService.findInfoBook(isbnFail));
     }
