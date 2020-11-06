@@ -3,6 +3,7 @@ package wolox.training.models.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.Builder;
 import lombok.Data;
 import wolox.training.models.Book;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Data
+@Builder
 public class BookDTO {
 
     private String isbn;
@@ -48,14 +50,16 @@ public class BookDTO {
     public static BookDTO setBookDto(ObjectNode node, String isbn) {
         final String isbnQuery = "ISBN:" + isbn;
         ObjectMapper mapper = new ObjectMapper();
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setIsbn(isbn);
-        bookDTO.setTitle(mapper.convertValue(node.get(isbnQuery).get("title"), String.class));
-        bookDTO.setSubtitle(mapper.convertValue(node.get(isbnQuery).get("subtitle"), String.class));
-        bookDTO.setPublishers(mapper.convertValue(node.get(isbnQuery).get("publishers"), List.class));
-        bookDTO.setPublishDate(mapper.convertValue(node.get(isbnQuery).get("publish_date"), String.class));
-        bookDTO.setNumberOfPages(mapper.convertValue(node.get(isbnQuery).get("number_of_pages"), String.class));
-        bookDTO.setAuthors(mapper.convertValue(node.get(isbnQuery).get("authors"), List.class));
+        BookDTO bookDTO = BookDTO
+                .builder()
+                .isbn(isbn)
+                .title(mapper.convertValue(node.get(isbnQuery).get("title"), String.class))
+                .subtitle(mapper.convertValue(node.get(isbnQuery).get("subtitle"), String.class))
+                .publishers(mapper.convertValue(node.get(isbnQuery).get("publishers"), List.class))
+                .publishDate(mapper.convertValue(node.get(isbnQuery).get("publish_date"), String.class))
+                .numberOfPages(mapper.convertValue(node.get(isbnQuery).get("number_of_pages"), String.class))
+                .authors(mapper.convertValue(node.get(isbnQuery).get("authors"), List.class))
+                .build();
         return bookDTO;
     }
 }
