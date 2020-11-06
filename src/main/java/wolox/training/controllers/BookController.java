@@ -159,7 +159,7 @@ public class BookController {
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year,
             Pageable pageable) {
-        Page<Book> bookList = bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year,pageable);
+        Page<Book> bookList = bookRepository.findAllByPublisherAndGenreAndYearQuery(publisher, genre, year, pageable);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
@@ -197,7 +197,7 @@ public class BookController {
             @RequestParam(required = false, defaultValue = "") String isbn,
             Pageable pageable) {
         Page<Book> books = bookRepository
-                .findByAllParameters(genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn,pageable);
+                .findByAllParameters(genre, author, image, title, subtitle, publisher, startYear, endYear, pages, isbn, pageable);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

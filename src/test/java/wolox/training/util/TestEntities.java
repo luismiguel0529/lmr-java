@@ -81,14 +81,15 @@ public class TestEntities {
         hashMap.put("name", "name");
         List<HashMap<String, String>> mockListHash = new ArrayList<>();
         mockListHash.add(hashMap);
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setIsbn("ISBN");
-        bookDTO.setTitle("title");
-        bookDTO.setPublishDate("2020");
-        bookDTO.setPublishers(mockListHash);
-        bookDTO.setNumberOfPages("1");
-        bookDTO.setSubtitle("Subtitle");
-        bookDTO.setAuthors(mockListHash);
-        return bookDTO;
+        return BookDTO
+                .builder()
+                .isbn("ISBN")
+                .title("title")
+                .subtitle("Subtitle")
+                .publishers(mockListHash)
+                .publishDate("2020")
+                .numberOfPages("1")
+                .authors(mockListHash)
+                .build();
     }
 }

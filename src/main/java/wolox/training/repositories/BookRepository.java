@@ -70,11 +70,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * Method to search book by any of the following parameters
      *
-     * @param genre variable to search object
-     * @param author variable to search object
-     * @param image variable to search object
-     * @param title variable to search object
-     * @param subtitle variable to search object
+     * @param genre     variable to search object
+     * @param author    variable to search object
+     * @param image     variable to search object
+     * @param title     variable to search object
+     * @param subtitle  variable to search object
      * @param publisher variable to search object
      * @param startYear variable to search object
      * @param endYear   variable to search object

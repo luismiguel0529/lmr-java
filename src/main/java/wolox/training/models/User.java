@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import wolox.training.exception.BookAlreadyOwnedException;
 import wolox.training.exception.BookNotFoundException;
 
@@ -30,6 +31,7 @@ import java.util.List;
  * @author luismiguelrodriguez
  */
 @Entity
+@Data
 @ApiModel(description = "Users Model")
 @Table(name = "users")
 public class User {
@@ -63,52 +65,14 @@ public class User {
     @ApiModelProperty(notes = "Books of a user", required = true)
     private List<Book> books = new ArrayList<>();
 
-    public User() {
-    }
-
-    public User(Long id, String username, String name, LocalDate birthdate) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.birthdate = birthdate;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
     public void setUsername(String username) {
         Preconditions.checkNotNull(username, "Username field is required");
         this.username = username;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         Preconditions.checkNotNull(name, "Name field is required");
         this.name = name;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
     }
 
     public void setBirthdate(LocalDate birthdate) {
@@ -118,10 +82,6 @@ public class User {
 
     public List<Book> getBooks() {
         return Collections.unmodifiableList(books);
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
     }
 
     /**
@@ -151,6 +111,5 @@ public class User {
             throw new BookNotFoundException();
         }
     }
-
 }
 

@@ -65,7 +65,6 @@ public class OpenLibraryServiceTest {
         Assertions.assertThrows(BookNotFoundException.class, () -> openLibraryService.findInfoBook(isbnFail));
     }
 
-
     @AfterAll
     public static void setDown() {
         wireMockServer.stop();
