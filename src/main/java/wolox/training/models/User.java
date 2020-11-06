@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.google.common.base.Preconditions;
@@ -11,11 +12,16 @@ import wolox.training.exception.BookNotFoundException;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -33,6 +39,9 @@ import java.util.List;
 @Entity
 @Data
 @ApiModel(description = "Users Model")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type",discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue(value = "user")
 @Table(name = "users")
 public class User {
 
@@ -64,6 +73,10 @@ public class User {
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @ApiModelProperty(notes = "Books of a user", required = true)
     private List<Book> books = new ArrayList<>();
+
+    @Column(name="user_type", insertable = false, updatable = false)
+    @JsonProperty("user_type")
+    private String userType;
 
     public void setPassword(String password) {
         this.password = password;
