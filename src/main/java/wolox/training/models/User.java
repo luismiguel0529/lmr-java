@@ -39,9 +39,9 @@ import java.util.List;
 @Entity
 @Data
 @ApiModel(description = "Users Model")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type",discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue(value = "user")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "user_type",discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorValue(value = "user")
 @Table(name = "users")
 public class User {
 
